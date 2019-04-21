@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateAccountActivity">
+
+    <TextView
+        android:id="@+id/nameTxtInCreateAccountPage"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="50dp"
+        android:text="Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/nameInCreateAccountPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBaseline_toBaselineOf="@+id/nameTxtInCreateAccountPage"
+        app:layout_constraintStart_toEndOf="@+id/nameTxtInCreateAccountPage" />
+
+    <TextView
+        android:id="@+id/userNameTxtInCreateAccountPage"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="50dp"
+        android:text="User Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameTxtInCreateAccountPage" />
+
+    <EditText
+        android:id="@+id/userNameInCreateAccountPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBaseline_toBaselineOf="@+id/userNameTxtInCreateAccountPage"
+        app:layout_constraintStart_toEndOf="@+id/userNameTxtInCreateAccountPage" />
+
+    <TextView
+        android:id="@+id/passwordTxtInCreateAccountPage"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="50dp"
+        android:text="Password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userNameTxtInCreateAccountPage" />
+
+    <EditText
+        android:id="@+id/passwordInCreateAccountPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBaseline_toBaselineOf="@+id/passwordTxtInCreateAccountPage"
+        app:layout_constraintStart_toEndOf="@+id/passwordTxtInCreateAccountPage" />
+
+    <TextView
+        android:id="@+id/ageTxtInCreateAccountPage"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="50dp"
+        android:text="Age"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTxtInCreateAccountPage" />
+
+    <EditText
+        android:id="@+id/ageInCreateAccountPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ageTxtInCreateAccountPage"
+        app:layout_constraintStart_toEndOf="@+id/ageTxtInCreateAccountPage" />
+
+    <TextView
+        android:id="@+id/phoneTxtInCreateAccountPage"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="50dp"
+        android:text="Phone No."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ageTxtInCreateAccountPage" />
+
+    <EditText
+        android:id="@+id/phoneInCreateAccountPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBaseline_toBaselineOf="@+id/phoneTxtInCreateAccountPage"
+        app:layout_constraintStart_toEndOf="@+id/phoneTxtInCreateAccountPage" />
+
+    <Button
+        android:id="@+id/createAccountBtnInCreateAccountPage"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Create Account"
+        android:onClick="createAccountClickedInCreateAccountPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneInCreateAccountPage" />
+
+    <TextView
+        android:id="@+id/errorTxtInCreateAccountPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createAccountBtnInCreateAccountPage" />
+</android.support.constraint.ConstraintLayout>
