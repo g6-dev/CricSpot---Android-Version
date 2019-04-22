@@ -23,6 +23,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void viewTeamClickedInHomePage(View view) {
+        intent = new Intent(HomeActivity.this, ViewTeamActivity.class);
+        startActivity(intent);
     }
 
     public void viewPlayersClickedInHomePage(View view) {

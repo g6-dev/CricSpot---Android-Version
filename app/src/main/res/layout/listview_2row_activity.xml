@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:weightSum="100">
 
 
     <TextView
-        android:gravity="center"
-        android:textAlignment="center"
-        android:text="TextView1"
+        android:id="@+id/row1"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:textStyle="bold"
+        android:gravity="center"
+        android:text="TextView1"
+        android:textAlignment="center"
         android:textSize="20sp"
-        android:id="@+id/t1"/>
+        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/t2"
+        android:id="@+id/row2"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_below="@+id/t1"
+        android:layout_below="@+id/row1"
         android:layout_marginTop="0dp"
         android:gravity="center"
         android:text="TextView2"
-        android:textStyle="italic"
+        android:textAlignment="center"
         android:textSize="18sp"
-        android:textAlignment="center" />
+        android:textStyle="italic" />
 
 </RelativeLayout>

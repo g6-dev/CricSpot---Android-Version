@@ -3,6 +3,7 @@ package android.g6.cricspot;
 public class Team {
 
     private String name;
+    private String location;
     private Player player1;
     private Player player2;
     private Player player3;
@@ -13,8 +14,10 @@ public class Team {
     public Team() {
     }
 
-    public Team(String name, Player player1, Player player2, Player player3, Player player4, Player player5, Boolean isPlaying) {
+    public Team(String name, String location, Player player1, Player player2, Player player3,
+                Player player4, Player player5, Boolean isPlaying) {
         this.name = name;
+        this.location = location;
         this.player1 = player1;
         this.player2 = player2;
         this.player3 = player3;
@@ -29,6 +32,14 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Player getPlayer1() {

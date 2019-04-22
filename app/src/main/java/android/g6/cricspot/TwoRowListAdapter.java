@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class twoRowListAdapter extends ArrayAdapter<NameAndLocation> {
+public class TwoRowListAdapter extends ArrayAdapter<NameAndLocation> {
 
     private static final String TAG = "PersonListAdapter";
 
@@ -28,7 +28,7 @@ public class twoRowListAdapter extends ArrayAdapter<NameAndLocation> {
      * @param resource
      * @param objects
      */
-    public twoRowListAdapter(Context context, int resource, List<NameAndLocation> objects) {
+    public TwoRowListAdapter(Context context, int resource, List<NameAndLocation> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -56,8 +56,8 @@ public class twoRowListAdapter extends ArrayAdapter<NameAndLocation> {
             convertView = inflater.inflate(mResource, parent, false);
             holder= new ViewHolder();
 
-            holder.name = (TextView) convertView.findViewById(R.id.t1);
-            holder.location = (TextView) convertView.findViewById(R.id.t2);
+            holder.name = (TextView) convertView.findViewById(R.id.row1);
+            holder.location = (TextView) convertView.findViewById(R.id.row2);
 
             result = convertView;
 
