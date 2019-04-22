@@ -7,16 +7,18 @@ public class Player {
     private String password;
     private String age;
     private String phone;
+    private String team;
 
     public Player() {
     }
 
-    public Player(String name, String userName, String password, String age, String phone) {
+    public Player(String name, String userName, String password, String age, String phone, String team) {
         this.name = name;
         this.userName = userName;
         this.password = password;
         this.age = age;
         this.phone = phone;
+        this.team = team;
     }
 
     public String getName() {
@@ -57,5 +59,13 @@ public class Player {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
     }
 }

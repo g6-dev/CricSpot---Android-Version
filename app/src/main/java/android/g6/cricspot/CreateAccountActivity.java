@@ -47,7 +47,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         phone = phoneE.getText().toString();
         /*TODO: Validations must take place*/
 
-        player = new Player(name, userName, password, age, phone);
+        player = new Player(name, userName, password, age, phone, null);
         /*TODO: Add this object to fire base*/
     }
 }
