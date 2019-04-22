@@ -13,6 +13,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     EditText nameE, userNameE, passwordE, ageE, phoneE;
     String name, userName, password, age, phone;
     Button createAccountBtn;
+    Player player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,5 +45,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         password = passwordE.getText().toString();
         age = ageE.getText().toString();
         phone = phoneE.getText().toString();
+        /*TODO: Validations must take place*/
+
+        player = new Player(name, userName, password, age, phone);
+        /*TODO: Add this object to fire base*/
     }
 }

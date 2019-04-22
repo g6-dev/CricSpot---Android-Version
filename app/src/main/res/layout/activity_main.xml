@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/nameInHomePage"
+        android:id="@+id/nameInLoginPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/passwordInHomePage"
+        android:id="@+id/passwordInLoginPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -36,21 +36,21 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameInHomePage" />
+        app:layout_constraintTop_toBottomOf="@+id/nameInLoginPage" />
 
     <Button
-        android:id="@+id/loginInHomePage"
+        android:id="@+id/loginInLoginPage"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="Log In"
-        android:onClick="logInClickedInHomePage"
+        android:onClick="logInClickedInLoginPage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordInHomePage" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordInLoginPage" />
 
     <TextView
-        android:id="@+id/noAccountTextInHomePage"
+        android:id="@+id/noAccountTextInLoginPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -61,16 +61,16 @@
         android:text="Don't have an account?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginInHomePage" />
+        app:layout_constraintTop_toBottomOf="@+id/loginInLoginPage" />
 
     <Button
-        android:id="@+id/createAccountInHomePage"
+        android:id="@+id/createAccountInLoginPage"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Create Account"
-        android:onClick="createAccountClickedInHomePage"
+        android:onClick="createAccountClickedInLoginPage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noAccountTextInHomePage" />
+        app:layout_constraintTop_toBottomOf="@+id/noAccountTextInLoginPage" />
 </android.support.constraint.ConstraintLayout>
