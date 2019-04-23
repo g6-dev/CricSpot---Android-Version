@@ -6,6 +6,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
@@ -14,6 +19,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     String name, userName, password, age, phone;
     Button createAccountBtn;
     Player player;
+    DatabaseReference dbReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,10 @@ public class CreateAccountActivity extends AppCompatActivity {
         phoneE = findViewById(R.id.phoneInCreateAccountPage);
 
         createAccountBtn = findViewById(R.id.createAccountBtnInCreateAccountPage);
+
+        /* Firebase database reference */
+        //FirebaseApp.initializeApp(this);
+        dbReference = FirebaseDatabase.getInstance().getReference().child("Player");
     }
 
     public void createAccountClickedInCreateAccountPage(View view) {
@@ -49,5 +59,9 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         player = new Player(name, userName, password, age, phone, null);
         /*TODO: Add this object to fire base*/
+
+        dbReference.push().setValue(player);
+
+        Toast.makeText(CreateAccountActivity.this, "Data inserted", Toast.LENGTH_SHORT);
     }
 }
