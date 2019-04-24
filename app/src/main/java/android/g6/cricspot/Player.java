@@ -68,4 +68,10 @@ public class Player {
     public void setTeam(String team) {
         this.team = team;
     }
+
+    @Override
+    public String toString() {
+        return "Player : {"+ this.name + ", " + this.userName + ", " + this.password + ", " +
+                this.age + ", " + this.phone + "}";
+    }
 }
