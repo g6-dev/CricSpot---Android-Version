@@ -1,10 +1,14 @@
 package android.g6.cricspot;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +21,7 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
     TwoRowListAdapter listAdapter;
     List<Team> teamList;
     List<NameAndLocation> nameAndLocationList;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,5 +56,19 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
                 nameAndLocationList);
 
         teamsListViewer.setAdapter(listAdapter);
+
+        /* ListViewer onClick Listener */
+        teamsListViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = ((TextView) view.findViewById(R.id.row1)).getText().toString();
+
+                intent = new Intent(UserWithoutTeamActivity.this, TeamDetailsActivity.class);
+                intent.putExtra("tester", selectedItem);
+                startActivity(intent);
+                //Toast.makeText(UserWithoutTeamActivity.this, "Yet in Maintenance", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
