@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logInClickedInLoginPage(View view) {
         /* TODO: Authentication  must take place */
-        intent = new Intent(MainActivity.this, HomeActivity.class);
+        intent = new Intent(MainActivity.this, UserWithoutTeamActivity.class);
         startActivity(intent);
     }
 

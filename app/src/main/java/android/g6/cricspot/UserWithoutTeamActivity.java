@@ -2,7 +2,6 @@ package android.g6.cricspot;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -10,26 +9,24 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewTeamActivity extends AppCompatActivity {
+public class UserWithoutTeamActivity extends AppCompatActivity {
 
-    Button createTeamBtn, myTeamBtn;
-    TextView heyTxt, joinAnotherTxt;
-    ListView listViewer;
+    TextView heyUserTxt, joinTeamTxt;
+    Button createTeamBtn;
+    ListView teamsListViewer;
+    TwoRowListAdapter listAdapter;
     List<Team> teamList;
     List<NameAndLocation> nameAndLocationList;
-    TwoRowListAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_team);
+        setContentView(R.layout.activity_user_without_team);
 
-        /* Initialize values */
-        createTeamBtn = findViewById(R.id.createTeamBtnInViewTeamPage);
-        myTeamBtn = findViewById(R.id.myTeamBtnInViewTeamPage);
-        heyTxt = findViewById(R.id.heyTxtInViewTeamPage);
-        joinAnotherTxt = findViewById(R.id.joinTeamTxtInViewTeamPage);
-        listViewer = findViewById(R.id.teamListInViewTeamPage);
+        heyUserTxt = findViewById(R.id.heyTxtInUserWithoutTeamPage);
+        joinTeamTxt = findViewById(R.id.joinTeamTxtInUserWithoutTeamPage);
+        createTeamBtn = findViewById(R.id.createTeamBtnInUserWithoutTeamPage);
+        teamsListViewer = findViewById(R.id.teamListInUserWithoutTeamPage);
 
         teamList = new ArrayList<>();
         nameAndLocationList = new ArrayList<>();
@@ -51,14 +48,8 @@ public class ViewTeamActivity extends AppCompatActivity {
         }
 
         listAdapter = new TwoRowListAdapter(this, R.layout.listview_2row_activity,
-                 nameAndLocationList);
+                nameAndLocationList);
 
-        listViewer.setAdapter(listAdapter);
-    }
-
-    public void createTeamIsClickedInViewTeamPage(View view) {
-    }
-
-    public void myTeamClickedInViewTeamPage(View view) {
+        teamsListViewer.setAdapter(listAdapter);
     }
 }
