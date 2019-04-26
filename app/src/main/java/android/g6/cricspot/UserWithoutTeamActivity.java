@@ -1,10 +1,13 @@
 package android.g6.cricspot;
 
+import android.content.Context;
 import android.content.Intent;
 import android.g6.cricspot.CricClasses.DatabaseManager;
 import android.g6.cricspot.CricClasses.TwoRowListAdapter;
 import android.g6.cricspot.CricObjects.NameAndLocation;
 import android.g6.cricspot.CricObjects.Team;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,7 +31,7 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
 
     final static String dbMemberNameForTeam = "Team";
 
-    TextView heyUserTxt, joinTeamTxt;
+    TextView heyUserTxt, joinTeamTxt, txtErr;
     Button createTeamBtn, loadTeamsBtn;
     ListView teamsListViewer;
     TwoRowListAdapter listAdapter;
@@ -46,6 +49,7 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
 
         heyUserTxt = findViewById(R.id.heyTxtInUserWithoutTeamPage);
         joinTeamTxt = findViewById(R.id.joinTeamTxtInUserWithoutTeamPage);
+        txtErr = findViewById(R.id.txtErrInUserWithoutTeamPage);
         createTeamBtn = findViewById(R.id.createTeamBtnInUserWithoutTeamPage);
         loadTeamsBtn = findViewById(R.id.loadTeamsBtnInUserWithoutTeamPage);
         teamsListViewer = findViewById(R.id.teamListInUserWithoutTeamPage);
@@ -98,30 +102,6 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
 //        teamList.add(new Team("Street Warriors", "Nuwara Eliya", "no", "no",
 //                "no", "no", "no", false));
 
-//        System.out.println(">>>>> teamlist size = "+teamList.size());
-//        for (Team team: teamList){
-//            System.out.println(">>>>> Team : "+team);
-//            nameAndLocationList.add(new NameAndLocation(team.getName(), team.getLocation()));
-//        }
-//
-//        listAdapter = new TwoRowListAdapter(this, R.layout.listview_2row_activity,
-//                nameAndLocationList);
-//
-//        teamsListViewer.setAdapter(listAdapter);
-//
-//        /* ListViewer onClick Listener */
-//        teamsListViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String selectedItem = ((TextView) view.findViewById(R.id.row1)).getText().toString();
-//
-//                intent = new Intent(UserWithoutTeamActivity.this, TeamDetailsActivity.class);
-//                intent.putExtra("tester", selectedItem);
-//                startActivity(intent);
-//                //Toast.makeText(UserWithoutTeamActivity.this, "Yet in Maintenance", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
     }
 
     public void createTeamClickedInUserWithoutTeamPage(View view) {
@@ -129,33 +109,54 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
     }
 
     public void loadTeamsIsClickedInUserWithoutTeamPage(View view) {
-        loadTeamsBtn.setVisibility(View.INVISIBLE);
-        teamsListViewer.setVisibility(View.VISIBLE);
+        if(isInternetOn()) { // Is internet on?
+            if (teamList.size() != 0) { // Is there anything to display?
+                txtErr.setText(""); // No errors
+                loadTeamsBtn.setVisibility(View.INVISIBLE); //make button invisible
+                teamsListViewer.setVisibility(View.VISIBLE); // make list visible
 
-        nameAndLocationList.clear();
+                nameAndLocationList.clear(); // clear before viewing
 
-        System.out.println(">>>>> team list size = "+teamList.size());
-        for (Team team: teamList){
-            System.out.println(">>>>> Team : "+team);
-            nameAndLocationList.add(new NameAndLocation(team.getName(), team.getLocation()));
-        }
+                System.out.println(">>>>> team list size = " + teamList.size());// testing purpose
+                for (Team team : teamList) {
+                    System.out.println(">>>>> Team : " + team);// testing purpose
+                    nameAndLocationList.add(new NameAndLocation(team.getName(), team.getLocation()));
+                }
 
-        listAdapter = new TwoRowListAdapter(this, R.layout.listview_2row_activity,
-                nameAndLocationList);
+                listAdapter = new TwoRowListAdapter(this, R.layout.listview_2row_activity,
+                        nameAndLocationList); // create the adapter
 
-        teamsListViewer.setAdapter(listAdapter);
+                teamsListViewer.setAdapter(listAdapter);// pass adapter
 
-        /* ListViewer onClick Listener */
-        teamsListViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = ((TextView) view.findViewById(R.id.row1)).getText().toString();
+                /* ListViewer onClick Listener */
+                teamsListViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String selectedItem = ((TextView) view.findViewById(R.id.row1)).getText().toString();
 
-                intent = new Intent(UserWithoutTeamActivity.this, TeamDetailsActivity.class);
-                intent.putExtra("tester", selectedItem);
-                startActivity(intent);
-                //Toast.makeText(UserWithoutTeamActivity.this, "Yet in Maintenance", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(UserWithoutTeamActivity.this, TeamDetailsActivity.class);
+                        intent.putExtra("tester", selectedItem);
+                        startActivity(intent);
+                        //Toast.makeText(UserWithoutTeamActivity.this, "Yet in Maintenance", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else{
+                txtErr.setText("No items found, try again in a while!");
             }
-        });
+        }else{
+            txtErr.setText("Cannot reach the Internet!");
+        }
+    }
+
+    /* To check the internet connection */
+    public Boolean isInternetOn(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            return true;
+        } else {
+            return false;
+        }
     }
 }
