@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText userName, password;
     Button logIn, createAccount;
-    TextView noAccount;
+    TextView noAccount, txtErr;
     Intent intent;
 
     @Override
@@ -26,12 +26,21 @@ public class MainActivity extends AppCompatActivity {
         logIn = findViewById(R.id.loginInLoginPage);
         createAccount = findViewById(R.id.createAccountInLoginPage);
         noAccount = findViewById(R.id.noAccountTextInLoginPage);
+        txtErr = findViewById(R.id.txtErrInLoginPage);
     }
 
     public void logInClickedInLoginPage(View view) {
         /* TODO: Authentication  must take place */
-        intent = new Intent(MainActivity.this, UserWithoutTeamActivity.class);
-        startActivity(intent);
+
+        if(userName.getText().toString().equalsIgnoreCase("") ||
+                password.getText().toString().equalsIgnoreCase("")){
+            txtErr.setText("User name or password incorrect!");
+        }else {
+            txtErr.setText("");
+            intent = new Intent(MainActivity.this, UserWithoutTeamActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     public void createAccountClickedInLoginPage(View view) {

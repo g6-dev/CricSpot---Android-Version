@@ -1,4 +1,4 @@
-package android.g6.cricspot;
+package android.g6.cricspot.CricObjects;
 
 public class Team {
 

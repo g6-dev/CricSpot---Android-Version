@@ -1,5 +1,6 @@
-package android.g6.cricspot;
+package android.g6.cricspot.CricClasses;
 
+import android.g6.cricspot.CricObjects.Player;
 import android.support.annotation.NonNull;
 import android.util.Log;
 

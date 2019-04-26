@@ -1,6 +1,8 @@
-package android.g6.cricspot;
+package android.g6.cricspot.CricClasses;
 
 import android.content.Context;
+import android.g6.cricspot.CricObjects.NameAndLocation;
+import android.g6.cricspot.R;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
