@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         }else {
             txtErr.setText("");
             intent = new Intent(MainActivity.this, UserWithoutTeamActivity.class);
+            intent.putExtra("tester", userName.getText().toString());
             startActivity(intent);
         }
 

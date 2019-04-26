@@ -1,7 +1,10 @@
 package android.g6.cricspot;
 
+import android.content.Context;
 import android.g6.cricspot.CricClasses.DatabaseManager;
 import android.g6.cricspot.CricObjects.Player;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +20,11 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     final static String dbMemberName = "Player";
 
-    TextView nameTxt, userNameTxt, passwordTxt, ageTxt, phoneTxt, errTxt;
+    TextView nameTxt, userNameTxt, passwordTxt, ageTxt, phoneTxt, txtErr;
     EditText nameE, userNameE, passwordE, ageE, phoneE;
     String name, userName, password, age, phone;
     Button createAccountBtn;
     Player player;
-    DatabaseReference dbReference;
     List<Player> playerList;
     DatabaseManager dbManager;
 
@@ -39,7 +39,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         passwordTxt = findViewById(R.id.passwordTxtInCreateAccountPage);
         ageTxt = findViewById(R.id.ageTxtInCreateAccountPage);
         phoneTxt = findViewById(R.id.phoneTxtInCreateAccountPage);
-        errTxt = findViewById(R.id.errorTxtInCreateAccountPage);
+        txtErr = findViewById(R.id.txtErrInCreateAccountPage);
 
         nameE = findViewById(R.id.nameInCreateAccountPage);
         userNameE = findViewById(R.id.userNameInCreateAccountPage);
@@ -55,7 +55,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         /*
         1) Firebase database reference
         2) Link: https://firebase.google.com/docs/android/setup?authuser=0 */
-        dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
     }
 
     public void createAccountClickedInCreateAccountPage(View view) {
@@ -68,18 +67,49 @@ public class CreateAccountActivity extends AppCompatActivity {
         phone = phoneE.getText().toString();
         /*TODO: Validations must take place*/
 
-        player = new Player(name, userName, password, age, phone, null);
-        /*TODO: Add this object to fire base*/
+        if(!isInternetOn()){
+            txtErr.setText("Cannot reach the internet! ");
+        }else if(fieldsAreEmpty(name, userName, password, age, phone)){
+            txtErr.setText("Fields Are Empty! Please fill!");
+        }else {
+            txtErr.setText("");
 
-        dbManager.addToFirebase(dbReference, player);
+            player = new Player(name, userName, password, age, phone, "no");
+            /*TODO: Add this object to fire base*/
 
-        Toast.makeText(CreateAccountActivity.this, "Data inserted", Toast.LENGTH_SHORT).show();
+            dbManager.addPlayerToFirebase(dbMemberName, player);
 
-        System.out.println(">>>>> Start finding now added player...");
-        player = dbManager.retrieveDataFromDatabase(dbReference, dbMemberName, player.getName());
+            Toast.makeText(CreateAccountActivity.this, "Data inserted", Toast.LENGTH_SHORT).show();
 
-        System.out.println(">>>>> Start Retrieving all data...");
-        playerList = dbManager.retrieveAllDataFromDatabase(dbReference);
+            System.out.println(">>>>> Start finding now added player...");
+            player = dbManager.retrieveOnePlayerFromDatabase(dbMemberName, player.getName());
+
+            System.out.println(">>>>> Start Retrieving all data...");
+            playerList = dbManager.retrieveAllPlayersFromDatabase(dbMemberName);
+        }
+    }
+
+    private boolean fieldsAreEmpty(String name, String userName, String password, String age, String phone) {
+
+        if(name.equalsIgnoreCase("") || userName.equalsIgnoreCase("") ||
+           password.equalsIgnoreCase("") || age.equalsIgnoreCase("") ||
+           phone.equalsIgnoreCase("")){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /* To check the internet connection */
+    public Boolean isInternetOn(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

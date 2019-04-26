@@ -121,18 +121,19 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="Create Account"
         android:onClick="createAccountClickedInCreateAccountPage"
+        android:text="Create Account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneInCreateAccountPage" />
+        app:layout_constraintTop_toBottomOf="@+id/txtErrInCreateAccountPage" />
 
     <TextView
-        android:id="@+id/errorTxtInCreateAccountPage"
+        android:id="@+id/txtErrInCreateAccountPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:textColor="@color/redColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createAccountBtnInCreateAccountPage" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneInCreateAccountPage" />
 </android.support.constraint.ConstraintLayout>

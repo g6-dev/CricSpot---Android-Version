@@ -25,6 +25,7 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
     List<Team> teamList;
     List<NameAndLocation> nameAndLocationList;
     Intent intent;
+    String intentString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +40,20 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
         teamList = new ArrayList<>();
         nameAndLocationList = new ArrayList<>();
 
+        intentString = getIntent().getStringExtra("tester");
+        heyUserTxt.setText("Hey "+intentString);
+
         /* Hardcoded values for testing purpose */
-        teamList.add(new Team("G6 Cricketers", "Colombo", new Player(), new Player(),
-                new Player(), new Player(), new Player(), false));
-        teamList.add(new Team("Black Smith", "Jaffna", new Player(), new Player(),
-                new Player(), new Player(), new Player(), false));
-        teamList.add(new Team("Moon Risers", "Trincomalee", new Player(), new Player(),
-                new Player(), new Player(), new Player(), false));
-        teamList.add(new Team("Golden Bat", "Galle", new Player(), new Player(),
-                new Player(), new Player(), new Player(), false));
-        teamList.add(new Team("Street Warriors", "Nuwara Eliya", new Player(), new Player(),
-                new Player(), new Player(), new Player(), false));
+        teamList.add(new Team("G6 Cricketers", "Colombo", "no", "no",
+                "no", "no", "no", false));
+        teamList.add(new Team("Black Smith", "Jaffna", "no", "no",
+                "no", "no", "no", false));
+        teamList.add(new Team("Moon Risers", "Trincomalee", "no", "no",
+                "no", "no", "no", false));
+        teamList.add(new Team("Golden Bat", "Galle", "no", "no",
+                "no", "no", "no", false));
+        teamList.add(new Team("Street Warriors", "Nuwara Eliya", "no", "no",
+                "no", "no", "no", false));
 
         for (Team team: teamList){
             nameAndLocationList.add(new NameAndLocation(team.getName(), team.getLocation()));
