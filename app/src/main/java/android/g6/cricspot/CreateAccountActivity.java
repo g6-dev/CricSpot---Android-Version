@@ -18,7 +18,7 @@ import java.util.List;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
-    final static String dbMemberName = "Player";
+    final static String dbMemberNameForPlayer = "Player";
 
     TextView nameTxt, userNameTxt, passwordTxt, ageTxt, phoneTxt, txtErr;
     EditText nameE, userNameE, passwordE, ageE, phoneE;
@@ -77,18 +77,20 @@ public class CreateAccountActivity extends AppCompatActivity {
             player = new Player(name, userName, password, age, phone, "no");
             /*TODO: Add this object to fire base*/
 
-            dbManager.addPlayerToFirebase(dbMemberName, player);
+            dbManager.addPlayerToFirebase(dbMemberNameForPlayer, player);
 
-            Toast.makeText(CreateAccountActivity.this, "Data inserted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CreateAccountActivity.this, "Player added", Toast.LENGTH_SHORT).show();
+            emptyAllTextFields();
 
             System.out.println(">>>>> Start finding now added player...");
-            player = dbManager.retrieveOnePlayerFromDatabase(dbMemberName, player.getName());
+            player = dbManager.retrieveOnePlayerFromDatabase(dbMemberNameForPlayer, player.getName());
 
             System.out.println(">>>>> Start Retrieving all data...");
-            playerList = dbManager.retrieveAllPlayersFromDatabase(dbMemberName);
+            playerList = dbManager.retrieveAllPlayersFromDatabase(dbMemberNameForPlayer);
         }
     }
 
+    // Check any empty inputs
     private boolean fieldsAreEmpty(String name, String userName, String password, String age, String phone) {
 
         if(name.equalsIgnoreCase("") || userName.equalsIgnoreCase("") ||
@@ -110,6 +112,14 @@ public class CreateAccountActivity extends AppCompatActivity {
         } else {
             return false;
         }
+    }
+
+    public void emptyAllTextFields(){
+        nameE.setText("");
+        userNameE.setText("");
+        passwordE.setText("");
+        ageE.setText("");
+        phoneE.setText("");
     }
 
 }

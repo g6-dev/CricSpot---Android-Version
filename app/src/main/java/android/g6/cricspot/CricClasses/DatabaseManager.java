@@ -125,12 +125,8 @@ public class DatabaseManager {
 
                 Log.d(">>>>>", "["+name+", "+location+", "+player1+", "+player2+", "
                         +player3+","+player4+", "+player5+", "+isPlaying+"]");
-                if(isPlaying) {
-                    team = new Team(name, location, player1, player2, player3, player4, player5, true);
-                }else{
-                    team = new Team(name, location, player1, player2, player3, player4, player5, false);
+                team = new Team(name, location, player1, player2, player3, player4, player5, isPlaying);
 
-                }
             }
 
             @Override
@@ -149,14 +145,15 @@ public class DatabaseManager {
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
         Log.d(">>>>>", "Starting method");
 
+        teamList.clear();
         dbReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d(">>>>>", "On 1 st method");
-                teamList.clear();
+
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Log.d(">>>>>", "On 2 nd method");
-                    team= postSnapshot.getValue(Team.class);
+                    team = postSnapshot.getValue(Team.class);
                     teamList.add(team);
 
                     // here you can access to name property like university.name
@@ -171,6 +168,7 @@ public class DatabaseManager {
         });
 
         Log.d(">>>>>", "Ending method");
+        System.out.println("teamList size = "+teamList.size());
         return teamList;
     }
 }
