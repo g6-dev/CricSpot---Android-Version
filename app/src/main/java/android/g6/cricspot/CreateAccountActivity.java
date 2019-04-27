@@ -81,12 +81,6 @@ public class CreateAccountActivity extends AppCompatActivity {
 
             Toast.makeText(CreateAccountActivity.this, "Player added", Toast.LENGTH_SHORT).show();
             emptyAllTextFields();
-
-            System.out.println(">>>>> Start finding now added player...");
-            player = dbManager.retrieveOnePlayerFromDatabase(dbMemberNameForPlayer, player.getName());
-
-            System.out.println(">>>>> Start Retrieving all data...");
-            playerList = dbManager.retrieveAllPlayersFromDatabase(dbMemberNameForPlayer);
         }
     }
 

@@ -37,10 +37,10 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
     TwoRowListAdapter listAdapter;
     Team team;
     private static List<Team> teamList = new ArrayList<>();
-    List<NameAndLocation> nameAndLocationList;
+    List<NameAndLocation> nameAndLocationList = new ArrayList<>();
     Intent intent;
     String intentString;
-    DatabaseManager dbManager;
+    DatabaseManager dbManager = new DatabaseManager();
 
     public UserWithoutTeamActivity() {
     }
@@ -69,41 +69,65 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
         loadTeamsBtn = findViewById(R.id.loadTeamsBtnInUserWithoutTeamPage);
         teamsListViewer = findViewById(R.id.teamListInUserWithoutTeamPage);
 
-        ;
-        nameAndLocationList = new ArrayList<>();
-
-        dbManager = new DatabaseManager();
-
         intentString = getIntent().getStringExtra("tester");
         heyUserTxt.setText("Hey "+intentString);
 
-        //teamList = dbManager.retrieveAllTeamsFromDatabase(dbMemberNameForTeam);
-        System.out.println(">>>>> Referencing...");
-        final DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberNameForTeam);
-        Log.d(">>>>>", "Starting method");
-
         teamList.clear();
-        dbReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d(">>>>>", "On 1 st method");
+        nameAndLocationList.clear(); // clear before viewing
 
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    Log.d(">>>>>", "On 2 nd method");
-                    team = postSnapshot.getValue(Team.class);
-                    teamList.add(team);
+        teamList = DatabaseManager.getTeamsList();
+//        do {
+//            if(teamList.size() == 0) {
+//                txtErr.setText("Loading... Retrieving from database!");
+//            }else{
+//                txtErr.setText("");
+//                teamList = DatabaseManager.getTeamsList();
+//            }
+//        }while(teamList.size() == 0);
 
-                    // here you can access to name property like team.name
-                    System.out.println(">>>>> Retrieving team -> "+ team);
-                }
-                //dbReference.removeEventListener(this);
+        if (teamList.size() != 0) {
+            System.out.println(">>>>> team list size = " + teamList.size());// testing purpose
+            for (Team team : teamList) {
+                System.out.println(">>>>> Team : " + team);// testing purpose
+                nameAndLocationList.add(new NameAndLocation(team.getName(), team.getLocation()));
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getMessage());
-            }
-        });
+            listAdapter = new TwoRowListAdapter(this, R.layout.listview_2row_activity,
+                    nameAndLocationList); // create the adapter
+
+            teamsListViewer.setAdapter(listAdapter);// pass adapter
+        }else{
+            teamsListViewer.setVisibility(View.INVISIBLE);
+            loadTeamsBtn.setVisibility(View.VISIBLE);
+        }
+
+        //teamList = dbManager.retrieveAllTeamsFromDatabase(dbMemberNameForTeam);
+//        System.out.println(">>>>> Referencing...");
+//        final DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberNameForTeam);
+//        Log.d(">>>>>", "Starting method");
+//
+//        teamList.clear();
+//        dbReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                Log.d(">>>>>", "On 1 st method");
+//
+//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+//                    Log.d(">>>>>", "On 2 nd method");
+//                    team = postSnapshot.getValue(Team.class);
+//                    teamList.add(team);
+//
+//                    // here you can access to name property like team.name
+//                    System.out.println(">>>>> Retrieving team -> "+ team);
+//                }
+//                //dbReference.removeEventListener(this);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                System.out.println("The read failed: " + databaseError.getMessage());
+//            }
+//        });
 
         /* Hardcoded values for testing purpose */
 //        teamList.add(new Team("G6 Cricketers", "Colombo", "no", "no",
@@ -132,6 +156,7 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
 
     public void loadTeamsIsClickedInUserWithoutTeamPage(View view) {
         if(isInternetOn()) { // Is internet on?
+            teamList = DatabaseManager.getTeamsList();
             if (teamList.size() != 0) { // Is there anything to display?
                 txtErr.setText(""); // No errors
                 loadTeamsBtn.setVisibility(View.INVISIBLE); //make button invisible
@@ -180,5 +205,10 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //Nothing: NO backwards, Only sign out!
     }
 }

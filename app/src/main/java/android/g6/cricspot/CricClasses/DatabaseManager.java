@@ -17,15 +17,32 @@ import java.util.List;
 public class DatabaseManager {
 
     private Player player;
-    private List<Player> playerList = new ArrayList<>();
+    private static List<Player> playersList = new ArrayList<>();
     private Team team;
-    private List<Team> teamList = new ArrayList<>();
+    private static List<Team> teamsList = new ArrayList<>();
+
+    public static List<Player> getPlayersList() {
+        return playersList;
+    }
+
+    public static void setPlayersList(List<Player> playersList) {
+        DatabaseManager.playersList = playersList;
+    }
+
+    public static List<Team> getTeamsList() {
+        return teamsList;
+    }
+
+    public static void setTeamsList(List<Team> teamsList) {
+        DatabaseManager.teamsList = teamsList;
+    }
 
     public DatabaseManager() {
     }
 
-
-    //------------ DATABASE FUNCTIONS >>>>>>>>>> PLAYER OBJECT <<<<<<<<<<<<<----------------------
+    //*********************************************************************************************
+    //********************** DATABASE FUNCTIONS >>>>>>>>>> PLAYER OBJECT <<<<<<<<<<<<<*************
+    //*********************************************************************************************
 
     public void addPlayerToFirebase(String dbMemberName, Player player){
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
@@ -67,8 +84,9 @@ public class DatabaseManager {
 
     /*
      * Link: https://stackoverflow.com/questions/38652007/how-to-retrieve-specific-list-of-data-from-firebase
+     * Run this method & access the static List
      */
-    public List<Player> retrieveAllPlayersFromDatabase(String dbMemberName){
+    public void retrieveAllPlayersFromDatabase(String dbMemberName){
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
         Log.d(">>>>>", "Starting method");
 
@@ -76,11 +94,11 @@ public class DatabaseManager {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d(">>>>>", "On 1 st method");
-                playerList.clear();
+                playersList.clear();
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Log.d(">>>>>", "On 2 nd method");
                     player = postSnapshot.getValue(Player.class);
-                    playerList.add(player);
+                    playersList.add(player);
 
                     // here you can access to name property like university.name
                     System.out.println(">>>>> Retrieving player -> "+ player);
@@ -92,12 +110,11 @@ public class DatabaseManager {
                 System.out.println("The read failed: " + databaseError.getMessage());
             }
         });
-
-        Log.d(">>>>>", "Ending method");
-        return playerList;
     }
 
-    //------------ DATABASE FUNCTIONS >>>>>>>>>> TEAM OBJECT <<<<<<<<<<<<<----------------------
+    //*********************************************************************************************
+    //********************** DATABASE FUNCTIONS >>>>>>>>>> TEAM OBJECT <<<<<<<<<<<<<***************
+    //*********************************************************************************************
 
     public void addTeamToFirebase(String dbMemberName, Team team){
 
@@ -139,22 +156,22 @@ public class DatabaseManager {
 
     /*
      * Link: https://stackoverflow.com/questions/38652007/how-to-retrieve-specific-list-of-data-from-firebase
+     * Run this method & access the static List
      */
-    public List<Team> retrieveAllTeamsFromDatabase(String dbMemberName){
+    public void retrieveAllTeamsFromDatabase(String dbMemberName){
 
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
         Log.d(">>>>>", "Starting method");
 
-        teamList.clear();
         dbReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d(">>>>>", "On 1 st method");
-
+                teamsList.clear();
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Log.d(">>>>>", "On 2 nd method");
                     team = postSnapshot.getValue(Team.class);
-                    teamList.add(team);
+                    teamsList.add(team);
 
                     // here you can access to name property like university.name
                     System.out.println(">>>>> Retrieving team -> "+ team);
@@ -166,9 +183,5 @@ public class DatabaseManager {
                 System.out.println("The read failed: " + databaseError.getMessage());
             }
         });
-
-        Log.d(">>>>>", "Ending method");
-        System.out.println("teamList size = "+teamList.size());
-        return teamList;
     }
 }
