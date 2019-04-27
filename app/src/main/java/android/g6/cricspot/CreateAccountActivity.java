@@ -68,9 +68,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         /*TODO: Validations must take place*/
 
         if(!isInternetOn()){
-            txtErr.setText("Cannot reach the internet! ");
+            txtErr.setText(R.string.noInternet);
         }else if(fieldsAreEmpty(name, userName, password, age, phone)){
-            txtErr.setText("Fields Are Empty! Please fill!");
+            txtErr.setText(R.string.fieldsEmpty);
         }else {
             txtErr.setText("");
 

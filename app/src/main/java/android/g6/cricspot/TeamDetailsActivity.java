@@ -28,7 +28,7 @@ import java.util.List;
 
 public class TeamDetailsActivity extends AppCompatActivity {
 
-    TextView teamName, teamLocation;
+    TextView teamName, teamLocation, txtErr;
     Button joinBtn;
     ListView playerListViewer;
     ArrayAdapter<String> listAdapter;
@@ -46,6 +46,7 @@ public class TeamDetailsActivity extends AppCompatActivity {
         teamLocation = findViewById(R.id.locationTxtInTeamDetailsPage);
         joinBtn = findViewById(R.id.joinBtnInTeamDetailsPage);
         playerListViewer = findViewById(R.id.playerListInTeamDetailsPage);
+        txtErr = findViewById(R.id.txtErrInTeamDetailsPage);
 
         intentString = getIntent().getStringExtra("tester");
 
@@ -72,7 +73,12 @@ public class TeamDetailsActivity extends AppCompatActivity {
     }
 
     public void joinBtnClickedInTeamDetailsPage(View view) {
-        Toast.makeText(TeamDetailsActivity.this, "You clicked "+intentString, Toast.LENGTH_LONG).show();
+        if(isInternetOn()) {
+            txtErr.setText("");
+            Toast.makeText(TeamDetailsActivity.this, "You clicked " + intentString, Toast.LENGTH_LONG).show();
+        }else{
+            txtErr.setText(R.string.noInternet);
+        }
     }
 
     /* To check the internet connection */

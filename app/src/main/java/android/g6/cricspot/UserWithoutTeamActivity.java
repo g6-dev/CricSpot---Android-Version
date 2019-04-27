@@ -8,53 +8,31 @@ import android.g6.cricspot.CricObjects.NameAndLocation;
 import android.g6.cricspot.CricObjects.Team;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserWithoutTeamActivity extends AppCompatActivity {
 
-    final static String dbMemberNameForTeam = "Team";
+    //final static String dbMemberNameForTeam = "Team";
 
     TextView heyUserTxt, joinTeamTxt, txtErr;
     Button createTeamBtn, loadTeamsBtn;
     ListView teamsListViewer;
     TwoRowListAdapter listAdapter;
-    Team team;
     private static List<Team> teamList = new ArrayList<>();
     List<NameAndLocation> nameAndLocationList = new ArrayList<>();
     Intent intent;
     String intentString;
-    DatabaseManager dbManager = new DatabaseManager();
-
-    public UserWithoutTeamActivity() {
-    }
 
     public static List<Team> getTeamList() {
         return teamList;
-    }
-
-    public static void setTeamList(List<Team> teamList) {
-        UserWithoutTeamActivity.teamList = teamList;
-    }
-
-    public static void addToTeamList(Team team){
-        teamList.add(team);
     }
 
     @Override
@@ -150,7 +128,7 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
             intent = new Intent(UserWithoutTeamActivity.this, CreateTeamActivity.class);
             startActivity(intent);
         }else{
-            txtErr.setText("Can not reach the internet!");
+            txtErr.setText(R.string.noInternet);
         }
     }
 

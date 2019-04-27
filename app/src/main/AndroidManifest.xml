@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateTeamActivity"></activity>
+        <activity android:name=".ConfirmCreatedTeamActivity"></activity>
+        <activity android:name=".CreateTeamActivity" />
         <activity android:name=".TeamDetailsActivity" />
         <activity android:name=".UserWithoutTeamActivity" />
         <activity android:name=".CreateAccountActivity" />

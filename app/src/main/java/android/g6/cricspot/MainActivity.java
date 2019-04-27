@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         if(isInternetOn()) {
             if (userName.getText().toString().equalsIgnoreCase("") ||
                     password.getText().toString().equalsIgnoreCase("")) {
-                txtErr.setText("User name or password incorrect!");
+                txtErr.setText(R.string.fieldsEmpty);
             } else {
                 txtErr.setText("");
                 intent = new Intent(MainActivity.this, UserWithoutTeamActivity.class);
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }else{
-            txtErr.setText("Can not reach the Internet!");
+            txtErr.setText(R.string.noInternet);
         }
 
 
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             intent = new Intent(MainActivity.this, CreateAccountActivity.class);
             startActivity(intent);
         }else{
-            txtErr.setText("Can not reach the internet!");
+            txtErr.setText(R.string.noInternet);
         }
     }
 

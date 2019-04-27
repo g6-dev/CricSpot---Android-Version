@@ -1,6 +1,7 @@
 package android.g6.cricspot;
 
 import android.content.Context;
+import android.content.Intent;
 import android.g6.cricspot.CricObjects.Team;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -16,14 +17,29 @@ import java.util.List;
 
 public class CreateTeamActivity extends AppCompatActivity {
 
+    static final String dbMemberName = "Team";
+
+    private static Team thisTeam;
+
+    public static Team getThisTeam() {
+        return thisTeam;
+    }
+
+    public static void setThisTeam(Team thisTeam) {
+        CreateTeamActivity.thisTeam = thisTeam;
+    }
+
     TextView teamNameTxt, teamLocationTxt, txtErr;
     EditText teamNameE, teamLocationE;
     Button nextBtn;
 
     String teamName, teamLocation;
+    Team team;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_team);
 
@@ -55,15 +71,19 @@ public class CreateTeamActivity extends AppCompatActivity {
             if(!(teamName.equalsIgnoreCase("") || teamLocation.equalsIgnoreCase(""))){
                 txtErr.setText("");
                 Toast.makeText(CreateTeamActivity.this, "In maintenance", Toast.LENGTH_SHORT).show();
-                List<Team> list = UserWithoutTeamActivity.getTeamList();
-                for (Team team: list) {
-                    System.out.println(">>>>> Testing static: "+ team.getName());
-                }
+
+                team = new Team(teamName, teamLocation, "no", "no", "no",
+                        "no", "no", false);
+
+                setThisTeam(team);
+
+                intent = new Intent(CreateTeamActivity.this, ConfirmCreatedTeamActivity.class);
+                startActivity(intent);
             }else{
-                txtErr.setText("Some fields are empty!");
+                txtErr.setText(R.string.fieldsEmpty);
             }
         }else{
-            txtErr.setText("Can not reach the internet!");
+            txtErr.setText(R.string.noInternet);
         }
     }
 }
