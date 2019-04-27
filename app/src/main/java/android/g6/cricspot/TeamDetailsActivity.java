@@ -28,17 +28,14 @@ import java.util.List;
 
 public class TeamDetailsActivity extends AppCompatActivity {
 
-    final static String dbMemberNameForTeam = "Team";
-
-    TextView teamName, teamLocation, txtErr;
-    Button joinBtn, refreshBtn;
+    TextView teamName, teamLocation;
+    Button joinBtn;
     ListView playerListViewer;
     ArrayAdapter<String> listAdapter;
-    List<String> playersList;
-    Intent intent;
+    List<Team> playersList;
+    List<String> playersNameList = new ArrayList<>();
     String intentString;
-    DatabaseManager dbManager;
-    Team team;
+    Team selectedTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,92 +44,35 @@ public class TeamDetailsActivity extends AppCompatActivity {
 
         teamName = findViewById(R.id.teamNameTxtInTeamDetailsPage);
         teamLocation = findViewById(R.id.locationTxtInTeamDetailsPage);
-        txtErr = findViewById(R.id.txtErrInTeamDetailsPage);
         joinBtn = findViewById(R.id.joinBtnInTeamDetailsPage);
-        refreshBtn = findViewById(R.id.refreshBtnInTeamDetailsPage);
         playerListViewer = findViewById(R.id.playerListInTeamDetailsPage);
 
         intentString = getIntent().getStringExtra("tester");
 
-        playersList = new ArrayList<>();
-        //team = null;
+        playersList = UserWithoutTeamActivity.getTeamList();
 
-        DatabaseReference dbReference =
-                FirebaseDatabase.getInstance().getReference().child(dbMemberNameForTeam).child(intentString);
-        dbReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String name = dataSnapshot.child("name").getValue().toString();
-                String location = dataSnapshot.child("location").getValue().toString();
-                String player1 = dataSnapshot.child("player1").getValue().toString();
-                String player2 = dataSnapshot.child("player2").getValue().toString();
-                String player3 = dataSnapshot.child("player3").getValue().toString();
-                String player4 = dataSnapshot.child("player4").getValue().toString();
-                String player5 = dataSnapshot.child("player5").getValue().toString();
-                //Boolean isPlaying = (Boolean) dataSnapshot.child("isPlaying").getValue();
-
-                Log.d(">>>>>", "["+name+", "+location+", "+player1+", "+player2+", "
-                        +player3+","+player4+", "+player5+", "+"onProcess"+"]");
-                team = new Team(name, location, player1, player2, player3, player4, player5, false);
+        for (Team team: playersList){
+            if(team.getName().equalsIgnoreCase(intentString)){
+                selectedTeam = team;
             }
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        playersNameList.add(selectedTeam.getPlayer1());
+        playersNameList.add(selectedTeam.getPlayer2());
+        playersNameList.add(selectedTeam.getPlayer3());
+        playersNameList.add(selectedTeam.getPlayer4());
+        playersNameList.add(selectedTeam.getPlayer5());
 
-            }
-        });
+        teamName.setText(selectedTeam.getName());
+        teamLocation.setText(selectedTeam.getLocation());
 
-//        System.out.println(">>>>> Team retrieved -> " + team);
-
-        //Testing purpose
-//        list = new ArrayList<>();
-//        list.add("Ravi123");
-//        list.add("Xnrt5");
-//        list.add("IamTenX");
-//        list.add("Nafli_Sarpa");
-//        list.add("ScdDCdvV");
-
-//        listAdapter = new ArrayAdapter<String>(TeamDetailsActivity.this,
-//                android.R.layout.simple_list_item_1,list);
-//        playerListViewer.setAdapter(listAdapter);
+        listAdapter = new ArrayAdapter<String>(TeamDetailsActivity.this,
+                android.R.layout.simple_list_item_1,playersNameList);
+        playerListViewer.setAdapter(listAdapter);
     }
 
     public void joinBtnClickedInTeamDetailsPage(View view) {
         Toast.makeText(TeamDetailsActivity.this, "You clicked "+intentString, Toast.LENGTH_LONG).show();
-    }
-
-    public void refreshClickedOnTeamDetailsPage(View view) {
-        if(isInternetOn()){
-            if(team != null){
-
-                txtErr.setText("");
-                refreshBtn.setVisibility(View.INVISIBLE);
-                teamName.setVisibility(View.VISIBLE);
-                teamLocation.setVisibility(View.VISIBLE);
-                playerListViewer.setVisibility(View.VISIBLE);
-                joinBtn.setVisibility(View.VISIBLE);
-
-                teamName.setText(team.getName());
-                teamLocation.setText(team.getLocation());
-
-                System.out.println(">>>>> players -> "+team.getPlayer1());
-
-                playersList.add(team.getPlayer1());
-                playersList.add(team.getPlayer2());
-                playersList.add(team.getPlayer3());
-                playersList.add(team.getPlayer4());
-                playersList.add(team.getPlayer5());
-
-                listAdapter = new ArrayAdapter<String>(TeamDetailsActivity.this,
-                  android.R.layout.simple_list_item_1,playersList);
-                playerListViewer.setAdapter(listAdapter);
-
-            }else{
-                txtErr.setText("No items found, try refreshing the page!");
-            }
-        }else{
-            txtErr.setText("Can not reach the Internet!");
-        }
     }
 
     /* To check the internet connection */

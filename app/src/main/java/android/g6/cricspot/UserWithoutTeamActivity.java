@@ -36,11 +36,26 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
     ListView teamsListViewer;
     TwoRowListAdapter listAdapter;
     Team team;
-    List<Team> teamList;
+    private static List<Team> teamList = new ArrayList<>();
     List<NameAndLocation> nameAndLocationList;
     Intent intent;
     String intentString;
     DatabaseManager dbManager;
+
+    public UserWithoutTeamActivity() {
+    }
+
+    public static List<Team> getTeamList() {
+        return teamList;
+    }
+
+    public static void setTeamList(List<Team> teamList) {
+        UserWithoutTeamActivity.teamList = teamList;
+    }
+
+    public static void addToTeamList(Team team){
+        teamList.add(team);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +69,7 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
         loadTeamsBtn = findViewById(R.id.loadTeamsBtnInUserWithoutTeamPage);
         teamsListViewer = findViewById(R.id.teamListInUserWithoutTeamPage);
 
-        teamList = new ArrayList<>();
+        ;
         nameAndLocationList = new ArrayList<>();
 
         dbManager = new DatabaseManager();
@@ -78,7 +93,7 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
                     team = postSnapshot.getValue(Team.class);
                     teamList.add(team);
 
-                    // here you can access to name property like university.name
+                    // here you can access to name property like team.name
                     System.out.println(">>>>> Retrieving team -> "+ team);
                 }
                 //dbReference.removeEventListener(this);
@@ -106,6 +121,13 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
 
     public void createTeamClickedInUserWithoutTeamPage(View view) {
         /*TODO: Create A team */
+        if(isInternetOn()){
+            txtErr.setText("");
+            intent = new Intent(UserWithoutTeamActivity.this, CreateTeamActivity.class);
+            startActivity(intent);
+        }else{
+            txtErr.setText("Can not reach the internet!");
+        }
     }
 
     public void loadTeamsIsClickedInUserWithoutTeamPage(View view) {
