@@ -29,11 +29,21 @@ public class DatabaseManager {
         DatabaseManager.playersList = playersList;
     }
 
+    private static Boolean isPlayersRetrieved;
 
+    public static Boolean getIsPlayersRetrieved() {
+        return isPlayersRetrieved;
+    }
+
+    public static void setIsPlayersRetrieved(Boolean isPlayersRetrieved) {
+        DatabaseManager.isPlayersRetrieved = isPlayersRetrieved;
+    }
+//----------------------------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------------------------
+    //-------- STATIC LIST TO ACCESS FIREBASE DATA === TEAM ----------------------------------------
     private Team team;
     private static List<Team> teamsList = new ArrayList<>();
-
-
 
     public static List<Team> getTeamsList() {
         return teamsList;
@@ -42,6 +52,17 @@ public class DatabaseManager {
     public static void setTeamsList(List<Team> teamsList) {
         DatabaseManager.teamsList = teamsList;
     }
+
+    private static Boolean isTeamsRetrieved;
+
+    public static Boolean getIsTeamsRetrieved() {
+        return isTeamsRetrieved;
+    }
+
+    public static void setIsTeamsRetrieved(Boolean isTeamsRetrieved) {
+        DatabaseManager.isTeamsRetrieved = isTeamsRetrieved;
+    }
+//----------------------------------------------------------------------------------------------
 
     public DatabaseManager() {
     }
@@ -95,6 +116,7 @@ public class DatabaseManager {
     public void retrieveAllPlayersFromDatabase(String dbMemberName){
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
         Log.d(">>>>>", "Starting method");
+        isPlayersRetrieved = false;
 
         dbReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -108,6 +130,10 @@ public class DatabaseManager {
 
                     // here you can access to name property like university.name
                     System.out.println(">>>>> Retrieving player -> "+ player);
+
+                    if(!isPlayersRetrieved) {
+                        isPlayersRetrieved = true;
+                    }
                 }
             }
 
@@ -168,6 +194,7 @@ public class DatabaseManager {
 
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
         Log.d(">>>>>", "Starting method");
+        isTeamsRetrieved = false;
 
         dbReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -181,6 +208,10 @@ public class DatabaseManager {
 
                     // here you can access to name property like university.name
                     System.out.println(">>>>> Retrieving team -> "+ team);
+
+                    if(!isTeamsRetrieved){
+                        isTeamsRetrieved = true;
+                    }
                 }
             }
 

@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     final static String dbMemberNameForTeam = "Team";
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //----------------------------------------------------------------------------------------------
 
-    EditText userName, password;
+    EditText userNameE, passwordE;
     Button logIn, createAccount, testBtn;
     TextView noAccount, txtErr;
     Intent intent;
@@ -70,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /* Initializing the variables */
-        userName = findViewById(R.id.nameInLoginPage);
-        password = findViewById(R.id.passwordInLoginPage);
+        userNameE = findViewById(R.id.nameInLoginPage);
+        passwordE = findViewById(R.id.passwordInLoginPage);
         logIn = findViewById(R.id.loginInLoginPage);
         createAccount = findViewById(R.id.createAccountInLoginPage);
         noAccount = findViewById(R.id.noAccountTextInLoginPage);
@@ -85,17 +87,44 @@ public class MainActivity extends AppCompatActivity {
 
     public void logInClickedInLoginPage(View view) {
         /* TODO: Authentication  must take place */
+        String userName = userNameE.getText().toString();
+        String password = passwordE.getText().toString();
 
         if(isInternetOn()) {
-            if (userName.getText().toString().equalsIgnoreCase("") ||
-                    password.getText().toString().equalsIgnoreCase("")) {
+            if (userName.equalsIgnoreCase("") || password.equalsIgnoreCase("")) {
                 txtErr.setText(R.string.fieldsEmpty);
             } else {
-                txtErr.setText("");
-                intent = new Intent(MainActivity.this, UserWithoutTeamActivity.class);
-                //intent.putExtra("tester", userName.getText().toString());
-                setUser(userName.getText().toString());
-                startActivity(intent);
+                txtErr.setText("Checking username & password...");
+                txtErr.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+                Boolean isRetrieved = false;
+                do{ // Run till isRetrieved becomes true
+                  isRetrieved = DatabaseManager.getIsPlayersRetrieved();
+                  System.out.println(">>>>> isRetrieved not yet 'true'");
+                }while(!isRetrieved);
+
+                List<Player> listOfPlayers = DatabaseManager.getPlayersList();
+
+                Boolean logIn = false;
+                for (int i=0; i<listOfPlayers.size(); i++){
+                    if(listOfPlayers.get(i).getName().equalsIgnoreCase(userName)){
+                        if (listOfPlayers.get(i).getPassword().equalsIgnoreCase(password)){
+                            logIn = true;
+                        }
+                    }
+                }
+
+                if (logIn){
+                    intent = new Intent(MainActivity.this, UserWithoutTeamActivity.class);
+                    //intent.putExtra("tester", userName.getText().toString());
+                    setUser(userName);
+                    startActivity(intent);
+                }else{
+                    txtErr.setText("Invalid Username or Password!");
+                    txtErr.setTextColor(getResources().getColor(R.color.redColor));
+                }
+
+
             }
         }else{
             txtErr.setText(R.string.noInternet);
