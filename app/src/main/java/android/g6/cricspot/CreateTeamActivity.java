@@ -72,7 +72,9 @@ public class CreateTeamActivity extends AppCompatActivity {
                 txtErr.setText("");
                 Toast.makeText(CreateTeamActivity.this, "In maintenance", Toast.LENGTH_SHORT).show();
 
-                team = new Team(teamName, teamLocation, MainActivity.getUser(), "no", "no",
+                // Creating a new Team with User as the first member
+                team = new Team(teamName, teamLocation, MainActivity.getUserPlayerObject().getName(),
+                        "no", "no",
                         "no", "no", false);
 
                 setThisTeam(team);

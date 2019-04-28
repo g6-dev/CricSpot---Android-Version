@@ -4,7 +4,10 @@ import android.g6.cricspot.CricObjects.Player;
 import android.g6.cricspot.CricObjects.Team;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -140,6 +143,22 @@ public class DatabaseManager {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getMessage());
+            }
+        });
+    }
+
+    public void updatePlayerAttributeInFirebase(String dbMemberName, String playerName, Player player){
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
+
+        dbReference.child(playerName).setValue(player).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //Updated successfully
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Update failed
             }
         });
     }

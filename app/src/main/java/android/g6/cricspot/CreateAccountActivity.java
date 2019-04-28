@@ -59,13 +59,14 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     public void createAccountClickedInCreateAccountPage(View view) {
 
+        /* TODO: Validate user register with same name again!!! */
+
         /* Get values from user */
         name = nameE.getText().toString();
         userName = userNameE.getText().toString();
         password = passwordE.getText().toString();
         age = ageE.getText().toString();
         phone = phoneE.getText().toString();
-        /*TODO: Validations must take place*/
 
         if(!isInternetOn()){
             txtErr.setText(R.string.noInternet);
@@ -75,8 +76,8 @@ public class CreateAccountActivity extends AppCompatActivity {
             txtErr.setText("");
 
             player = new Player(name, userName, password, age, phone, "no");
-            /*TODO: Add this object to fire base*/
 
+            //Adding the player into firebase
             dbManager.addPlayerToFirebase(dbMemberNameForPlayer, player);
 
             Toast.makeText(CreateAccountActivity.this, "Player added", Toast.LENGTH_SHORT).show();

@@ -45,7 +45,7 @@
     <ListView
         android:id="@+id/teamListInUserWithoutTeamPage"
         android:layout_width="200dp"
-        android:layout_height="318dp"
+        android:layout_height="250dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="10dp"
@@ -76,4 +76,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loadTeamsBtnInUserWithoutTeamPage" />
+
+    <Button
+        android:id="@+id/signOutBtnInUserWithoutTeamPage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Sign Out"
+        android:onClick="signOutBtnClickedInUserWithoutTeamPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teamListInUserWithoutTeamPage" />
 </android.support.constraint.ConstraintLayout>

@@ -7,12 +7,18 @@ import android.g6.cricspot.CricObjects.Player;
 import android.g6.cricspot.CricObjects.Team;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -23,15 +29,16 @@ public class MainActivity extends AppCompatActivity {
 
     //----------------------------------------------------------------------------------------------
     //To store the user's name for the whole application program
-    private static String user;
-
-    public static String getUser() {
-        return user;
-    }
-
-    public static void setUser(String user) {
-        MainActivity.user = user;
-    }
+//    private static String user;
+//
+//    public static String getUser() {
+//        return user;
+//    }
+//
+//    public static void setUser(String user) {
+//        MainActivity.user = user;
+//    }
+    //User's name is stored within MainActivity class, When Log in starts...
     //----------------------------------------------------------------------------------------------
 
     //----------------------------------------------------------------------------------------------
@@ -109,15 +116,15 @@ public class MainActivity extends AppCompatActivity {
                 for (int i=0; i<listOfPlayers.size(); i++){
                     if(listOfPlayers.get(i).getName().equalsIgnoreCase(userName)){
                         if (listOfPlayers.get(i).getPassword().equalsIgnoreCase(password)){
+                            //Found the user! name is okay + password is okay
                             logIn = true;
+                            setUserPlayerObject(listOfPlayers.get(i));
                         }
                     }
                 }
 
                 if (logIn){
                     intent = new Intent(MainActivity.this, UserWithoutTeamActivity.class);
-                    //intent.putExtra("tester", userName.getText().toString());
-                    setUser(userName);
                     startActivity(intent);
                 }else{
                     txtErr.setText("Invalid Username or Password!");
@@ -157,7 +164,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void testingPages(View view) {
-        intent = new Intent(MainActivity.this, UserWithTeamActivity.class);
-        startActivity(intent);
+//        intent = new Intent(MainActivity.this, UserWithTeamActivity.class);
+//        startActivity(intent);
+
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberNameForPlayer);
+
+        dbReference.child("testing4").setValue(
+                new Player("UpdatedTesting4", "ut4", "srh", "kkr", "dd", "csk")
+        ).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //Updated successfully
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Update failed
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        //Do nothing, don't go back
     }
 }

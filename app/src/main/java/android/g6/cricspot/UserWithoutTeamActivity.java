@@ -29,7 +29,6 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
     private static List<Team> teamList = new ArrayList<>();
     List<NameAndLocation> nameAndLocationList = new ArrayList<>();
     Intent intent;
-    String intentString;
 
     public static List<Team> getTeamList() {
         return teamList;
@@ -46,9 +45,7 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
         createTeamBtn = findViewById(R.id.createTeamBtnInUserWithoutTeamPage);
         loadTeamsBtn = findViewById(R.id.loadTeamsBtnInUserWithoutTeamPage);
         teamsListViewer = findViewById(R.id.teamListInUserWithoutTeamPage);
-
-        //intentString = getIntent().getStringExtra("tester");
-        heyUserTxt.setText("Hey "+MainActivity.getUser());
+        heyUserTxt.setText("Hey "+MainActivity.getUserPlayerObject().getName());
 
         teamList.clear();
         nameAndLocationList.clear(); // clear before viewing
@@ -188,5 +185,11 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //Nothing: NO backwards, Only sign out!
+    }
+
+    public void signOutBtnClickedInUserWithoutTeamPage(View view) {
+        intent = new Intent(UserWithoutTeamActivity.this, MainActivity.class);
+        startActivity(intent);
+        /* TODO: This is sign out, some player attribute might be affected */
     }
 }
