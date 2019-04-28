@@ -47,8 +47,8 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
         loadTeamsBtn = findViewById(R.id.loadTeamsBtnInUserWithoutTeamPage);
         teamsListViewer = findViewById(R.id.teamListInUserWithoutTeamPage);
 
-        intentString = getIntent().getStringExtra("tester");
-        heyUserTxt.setText("Hey "+intentString);
+        //intentString = getIntent().getStringExtra("tester");
+        heyUserTxt.setText("Hey "+MainActivity.getUser());
 
         teamList.clear();
         nameAndLocationList.clear(); // clear before viewing

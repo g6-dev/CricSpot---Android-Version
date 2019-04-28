@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TeamDetailsActivity">
+    tools:context=".UserWithTeamActivity">
 
     <TextView
-        android:id="@+id/teamNameTxtInTeamDetailsPage"
+        android:id="@+id/teamNameTxtInUserWithTeamPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -22,17 +22,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/playerListInTeamDetailsPage"
+        android:id="@+id/playerListInUserWithTeamPage"
         android:layout_width="200dp"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationTxtInTeamDetailsPage" />
+        app:layout_constraintTop_toBottomOf="@+id/locationTxtInUserWithTeamPage" />
 
     <TextView
-        android:id="@+id/locationTxtInTeamDetailsPage"
+        android:id="@+id/locationTxtInUserWithTeamPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -40,27 +40,40 @@
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/teamNameTxtInTeamDetailsPage" />
-
-    <Button
-        android:id="@+id/joinBtnInTeamDetailsPage"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:onClick="joinBtnClickedInTeamDetailsPage"
-        android:text="Join Team"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playerListInTeamDetailsPage" />
+        app:layout_constraintTop_toBottomOf="@+id/teamNameTxtInUserWithTeamPage" />
 
     <TextView
-        android:id="@+id/txtErrInTeamDetailsPage"
+        android:id="@+id/txtErrInUserWithTeamPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/redColor"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/joinBtnInTeamDetailsPage" />
+        app:layout_constraintTop_toBottomOf="@+id/playerListInUserWithTeamPage" />
+
+    <Button
+        android:id="@+id/removeTeamBtnInUserWithTeamPage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Remove from team"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtErrInUserWithTeamPage" />
+
+    <Button
+        android:id="@+id/findMatchBtnInUserWithTeamPage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Find Match"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/removeTeamBtnInUserWithTeamPage" />
+
 
 </android.support.constraint.ConstraintLayout>

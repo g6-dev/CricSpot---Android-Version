@@ -16,9 +16,18 @@ public class MainActivity extends AppCompatActivity {
 
     final static String dbMemberNameForTeam = "Team";
     final static String dbMemberNameForPlayer = "Player";
+    private static String user;
+
+    public static String getUser() {
+        return user;
+    }
+
+    public static void setUser(String user) {
+        MainActivity.user = user;
+    }
 
     EditText userName, password;
-    Button logIn, createAccount;
+    Button logIn, createAccount, testBtn;
     TextView noAccount, txtErr;
     Intent intent;
     DatabaseManager dbManager = new DatabaseManager();
@@ -35,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         createAccount = findViewById(R.id.createAccountInLoginPage);
         noAccount = findViewById(R.id.noAccountTextInLoginPage);
         txtErr = findViewById(R.id.txtErrInLoginPage);
+        testBtn = findViewById(R.id.testerInMain);
 
         //Initially keep offline database of online lists -> -+- Team, Players -+-
         dbManager.retrieveAllTeamsFromDatabase(dbMemberNameForTeam);
@@ -51,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 txtErr.setText("");
                 intent = new Intent(MainActivity.this, UserWithoutTeamActivity.class);
-                intent.putExtra("tester", userName.getText().toString());
+                //intent.putExtra("tester", userName.getText().toString());
+                setUser(userName.getText().toString());
                 startActivity(intent);
             }
         }else{
@@ -82,5 +93,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return false;
         }
+    }
+
+    public void testingPages(View view) {
+        intent = new Intent(MainActivity.this, UserWithTeamActivity.class);
+        startActivity(intent);
     }
 }
