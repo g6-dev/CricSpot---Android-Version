@@ -3,6 +3,8 @@ package android.g6.cricspot;
 import android.content.Context;
 import android.content.Intent;
 import android.g6.cricspot.CricClasses.DatabaseManager;
+import android.g6.cricspot.CricObjects.Player;
+import android.g6.cricspot.CricObjects.Team;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
 
     final static String dbMemberNameForTeam = "Team";
     final static String dbMemberNameForPlayer = "Player";
+
+    //----------------------------------------------------------------------------------------------
+    //To store the user's name for the whole application program
     private static String user;
 
     public static String getUser() {
@@ -25,6 +30,33 @@ public class MainActivity extends AppCompatActivity {
     public static void setUser(String user) {
         MainActivity.user = user;
     }
+    //----------------------------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------------------------
+    //To store the user's player object for the whole application program
+    private static Player userPlayerObject;
+
+    public static Player getUserPlayerObject() {
+        return userPlayerObject;
+    }
+
+    public static void setUserPlayerObject(Player userPlayerObject) {
+        MainActivity.userPlayerObject = userPlayerObject;
+    }
+    //----------------------------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------------------------
+    //To store the user's team object for the whole application program
+    private static Team userTeamObject;
+
+    public static Team getUserTeamObject() {
+        return userTeamObject;
+    }
+
+    public static void setUserTeamObject(Team userTeamObject) {
+        MainActivity.userTeamObject = userTeamObject;
+    }
+    //----------------------------------------------------------------------------------------------
 
     EditText userName, password;
     Button logIn, createAccount, testBtn;

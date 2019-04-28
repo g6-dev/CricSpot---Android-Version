@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:textSize="20sp"
@@ -56,14 +56,24 @@
         app:layout_constraintTop_toBottomOf="@+id/playerListInUserWithTeamPage" />
 
     <Button
-        android:id="@+id/removeTeamBtnInUserWithTeamPage"
+        android:id="@+id/exitTeamBtnInUserWithTeamPage"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Remove from team"
+        android:text="Exit from team"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtErrInUserWithTeamPage" />
+
+    <Button
+        android:id="@+id/findPlayerBtnInUserWithTeamPage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Find Player"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exitTeamBtnInUserWithTeamPage" />
 
     <Button
         android:id="@+id/findMatchBtnInUserWithTeamPage"
@@ -73,7 +83,7 @@
         android:text="Find Match"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/removeTeamBtnInUserWithTeamPage" />
+        app:layout_constraintTop_toBottomOf="@+id/findPlayerBtnInUserWithTeamPage" />
 
 
 </android.support.constraint.ConstraintLayout>

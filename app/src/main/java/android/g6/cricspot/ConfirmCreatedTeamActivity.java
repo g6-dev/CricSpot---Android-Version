@@ -65,6 +65,9 @@ public class ConfirmCreatedTeamActivity extends AppCompatActivity {
             dbManager.addTeamToFirebase(dbMemberName, team);
             Toast.makeText(ConfirmCreatedTeamActivity.this, "Team is added", Toast.LENGTH_LONG).show();
             /* TODO: Create the UserWithTeamPage and link it from here*/
+
+            //---------- SETTING USER'S TEAM OBJECT STATICALLY - IN MAIN ACTIVITY ------------------
+            MainActivity.setUserTeamObject(team);
         }else{
             txtErr.setText(R.string.noInternet);
         }
