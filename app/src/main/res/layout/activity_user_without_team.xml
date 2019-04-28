@@ -26,8 +26,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Create your team"
         android:onClick="createTeamClickedInUserWithoutTeamPage"
+        android:text="Create your team"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/heyTxtInUserWithoutTeamPage" />
@@ -60,9 +60,9 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:onClick="loadTeamsIsClickedInUserWithoutTeamPage"
         android:text="Load the Teams"
         android:visibility="invisible"
-        android:onClick="loadTeamsIsClickedInUserWithoutTeamPage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/joinTeamTxtInUserWithoutTeamPage" />

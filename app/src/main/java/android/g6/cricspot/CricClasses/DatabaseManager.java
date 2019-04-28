@@ -16,10 +16,10 @@ import java.util.List;
 
 public class DatabaseManager {
 
+    //----------------------------------------------------------------------------------------------
+    //-------- STATIC LIST TO ACCESS FIREBASE DATA === PLAYER --------------------------------------
     private Player player;
     private static List<Player> playersList = new ArrayList<>();
-    private Team team;
-    private static List<Team> teamsList = new ArrayList<>();
 
     public static List<Player> getPlayersList() {
         return playersList;
@@ -28,6 +28,12 @@ public class DatabaseManager {
     public static void setPlayersList(List<Player> playersList) {
         DatabaseManager.playersList = playersList;
     }
+
+
+    private Team team;
+    private static List<Team> teamsList = new ArrayList<>();
+
+
 
     public static List<Team> getTeamsList() {
         return teamsList;

@@ -5,7 +5,6 @@
     android:orientation="horizontal"
     android:weightSum="100">
 
-
     <TextView
         android:id="@+id/row1"
         android:layout_width="match_parent"
@@ -27,5 +26,4 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="italic" />
-
 </RelativeLayout>

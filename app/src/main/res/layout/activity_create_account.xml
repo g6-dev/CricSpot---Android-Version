@@ -68,7 +68,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textVisiblePassword"
         app:layout_constraintBaseline_toBaselineOf="@+id/passwordTxtInCreateAccountPage"
         app:layout_constraintStart_toEndOf="@+id/passwordTxtInCreateAccountPage" />
 
@@ -90,7 +90,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintBaseline_toBaselineOf="@+id/ageTxtInCreateAccountPage"
         app:layout_constraintStart_toEndOf="@+id/ageTxtInCreateAccountPage" />
 
@@ -112,7 +112,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="phone"
         app:layout_constraintBaseline_toBaselineOf="@+id/phoneTxtInCreateAccountPage"
         app:layout_constraintStart_toEndOf="@+id/phoneTxtInCreateAccountPage" />
 
@@ -136,4 +136,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phoneInCreateAccountPage" />
+
 </android.support.constraint.ConstraintLayout>
