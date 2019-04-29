@@ -50,7 +50,6 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
         teamList.clear();
         nameAndLocationList.clear(); // clear before viewing
 
-        teamList = DatabaseManager.getTeamsList();
 //        do {
 //            if(teamList.size() == 0) {
 //                txtErr.setText("Loading... Retrieving from database!");
@@ -60,7 +59,9 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
 //            }
 //        }while(teamList.size() == 0);
 
-        if (teamList.size() != 0) {
+        if (DatabaseManager.getIsTeamsRetrieved()) {
+            teamList.clear();
+            teamList = DatabaseManager.getTeamsList();
             System.out.println(">>>>> team list size = " + teamList.size());// testing purpose
             for (Team team : teamList) {
                 System.out.println(">>>>> Team : " + team);// testing purpose
@@ -131,8 +132,9 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
 
     public void loadTeamsIsClickedInUserWithoutTeamPage(View view) {
         if(isInternetOn()) { // Is internet on?
-            teamList = DatabaseManager.getTeamsList();
-            if (teamList.size() != 0) { // Is there anything to display?
+            if (DatabaseManager.getIsTeamsRetrieved()) { // Is there anything to display?
+                teamList.clear();
+                teamList = DatabaseManager.getTeamsList();
                 txtErr.setText(""); // No errors
                 loadTeamsBtn.setVisibility(View.INVISIBLE); //make button invisible
                 teamsListViewer.setVisibility(View.VISIBLE); // make list visible

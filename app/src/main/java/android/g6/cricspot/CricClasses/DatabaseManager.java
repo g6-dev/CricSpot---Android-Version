@@ -32,7 +32,7 @@ public class DatabaseManager {
         DatabaseManager.playersList = playersList;
     }
 
-    private static Boolean isPlayersRetrieved;
+    private static Boolean isPlayersRetrieved = false;
 
     public static Boolean getIsPlayersRetrieved() {
         return isPlayersRetrieved;
@@ -56,7 +56,7 @@ public class DatabaseManager {
         DatabaseManager.teamsList = teamsList;
     }
 
-    private static Boolean isTeamsRetrieved;
+    private static Boolean isTeamsRetrieved = false;
 
     public static Boolean getIsTeamsRetrieved() {
         return isTeamsRetrieved;
@@ -78,7 +78,8 @@ public class DatabaseManager {
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
         System.out.println(">>>> Adding player into fire base");
         /*dbReference.push().setValue(player);  // Add player with unknown key number*/
-        dbReference.child(player.getName()).setValue(player);
+        //Because userName is the as per the unique name
+        dbReference.child(player.getUserName()).setValue(player);
     }
 
     /*
@@ -147,18 +148,18 @@ public class DatabaseManager {
         });
     }
 
-    public void updatePlayerAttributeInFirebase(String dbMemberName, String playerName, Player player){
+    public void updatePlayerAttributeInFirebase(String dbMemberName, Player player){
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
 
-        dbReference.child(playerName).setValue(player).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbReference.child(player.getName()).setValue(player).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                //Updated successfully
+                System.out.println(">>>>> Update is successful...");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                //Update failed
+                System.out.println(">>>>> Update is unsuccessful!");
             }
         });
     }

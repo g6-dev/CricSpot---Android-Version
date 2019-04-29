@@ -88,8 +88,13 @@ public class MainActivity extends AppCompatActivity {
         testBtn = findViewById(R.id.testerInMain);
 
         //Initially keep offline database of online lists -> -+- Team, Players -+-
-        dbManager.retrieveAllTeamsFromDatabase(dbMemberNameForTeam);
-        dbManager.retrieveAllPlayersFromDatabase(dbMemberNameForPlayer);
+        if ( ! DatabaseManager.getIsTeamsRetrieved() ) {
+            dbManager.retrieveAllTeamsFromDatabase(dbMemberNameForTeam);
+        }
+
+        if ( ! DatabaseManager.getIsPlayersRetrieved()) {
+            dbManager.retrieveAllPlayersFromDatabase(dbMemberNameForPlayer);
+        }
     }
 
     public void logInClickedInLoginPage(View view) {
@@ -107,25 +112,50 @@ public class MainActivity extends AppCompatActivity {
                 Boolean isRetrieved = false;
                 do{ // Run till isRetrieved becomes true
                   isRetrieved = DatabaseManager.getIsPlayersRetrieved();
-                  System.out.println(">>>>> isRetrieved not yet 'true'");
+                  System.out.println(">>>>> Player isRetrieved not yet 'true'");
                 }while(!isRetrieved);
 
                 List<Player> listOfPlayers = DatabaseManager.getPlayersList();
 
                 Boolean logIn = false;
+                Boolean hasTeam = false;
                 for (int i=0; i<listOfPlayers.size(); i++){
                     if(listOfPlayers.get(i).getName().equalsIgnoreCase(userName)){
                         if (listOfPlayers.get(i).getPassword().equalsIgnoreCase(password)){
                             //Found the user! name is okay + password is okay
                             logIn = true;
-                            setUserPlayerObject(listOfPlayers.get(i));
+                            setUserPlayerObject(listOfPlayers.get(i)); // set user as static
+
+                            String teamName = listOfPlayers.get(i).getTeam();
+                            // Is user already in a team?
+                            if ( ! teamName.equalsIgnoreCase("no")){
+                                hasTeam = true;
+
+                                isRetrieved = false;
+                                do{ // Run till isRetrieved becomes true
+                                    isRetrieved = DatabaseManager.getIsTeamsRetrieved();
+                                    System.out.println(">>>>> Team isRetrieved not yet 'true'");
+                                }while(!isRetrieved);
+
+                                List<Team> listOfTeams = DatabaseManager.getTeamsList();
+
+                                for(int j=0; j<listOfTeams.size(); j++){
+                                    if(teamName.equalsIgnoreCase(listOfTeams.get(j).getName())){
+                                        setUserTeamObject(listOfTeams.get(i));// Set team as static
+                                    }
+                                }
+                            }
                         }
                     }
                 }
 
                 if (logIn){
-                    intent = new Intent(MainActivity.this, UserWithoutTeamActivity.class);
-                    startActivity(intent);
+                    if (! hasTeam ) { //If without a team
+                        intent = new Intent(MainActivity.this, UserWithoutTeamActivity.class);
+                    }else{ // If with a team
+                        intent = new Intent(MainActivity.this, UserWithTeamActivity.class);
+                    }
+                    startActivity(intent); // Now redirect ->
                 }else{
                     txtErr.setText("Invalid Username or Password!");
                     txtErr.setTextColor(getResources().getColor(R.color.redColor));

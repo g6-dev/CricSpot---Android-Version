@@ -25,5 +25,6 @@ public class UserWithTeamActivity extends AppCompatActivity {
         txtErr = findViewById(R.id.txtErrInUserWithTeamPage);
         playerListViewer = findViewById(R.id.playerListInUserWithTeamPage);
 
+        txtErr.setText("Yet in maintainance");
     }
 }
