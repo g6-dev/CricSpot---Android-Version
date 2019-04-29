@@ -61,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Exit from team"
+        android:onClick="exitTeamIsClickedInUserWithTeamPage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtErrInUserWithTeamPage" />
@@ -71,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Find Player"
+        android:onClick="findPlayerClickedInUserWithTeamPage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exitTeamBtnInUserWithTeamPage" />
@@ -81,7 +83,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Find Match"
+        android:onClick="findMatchClickedInUserWithTeamPage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/findPlayerBtnInUserWithTeamPage" />
+
+    <Button
+        android:id="@+id/signOutInUserWithTeamPage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Sign Out"
+        android:onClick="signOutClickedInUserWithTeamPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/findMatchBtnInUserWithTeamPage" />
 </android.support.constraint.ConstraintLayout>

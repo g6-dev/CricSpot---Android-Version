@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                             if ( ! teamName.equalsIgnoreCase("no")){
                                 hasTeam = true;
 
+                                /*TODO: This might lag the app, change it!*/
                                 isRetrieved = false;
                                 do{ // Run till isRetrieved becomes true
                                     isRetrieved = DatabaseManager.getIsTeamsRetrieved();
@@ -141,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 for(int j=0; j<listOfTeams.size(); j++){
                                     if(teamName.equalsIgnoreCase(listOfTeams.get(j).getName())){
-                                        setUserTeamObject(listOfTeams.get(i));// Set team as static
+                                        setUserTeamObject(listOfTeams.get(j));// Set team as static
                                     }
                                 }
                             }
