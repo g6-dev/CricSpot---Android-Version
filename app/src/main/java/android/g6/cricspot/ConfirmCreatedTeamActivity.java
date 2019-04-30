@@ -74,6 +74,7 @@ public class ConfirmCreatedTeamActivity extends AppCompatActivity {
             Player player = MainActivity.getUserPlayerObject(); // Get the player object
             player.setTeam(team.getName()); // Set player's team name as the current team
             MainActivity.setUserPlayerObject(player); // Set MainActivity's player object
+            //Update the player with changing team attribute
             dbManager.updatePlayerAttributeInFirebase(dbMemberNameForPlayer, player);
 
             Toast.makeText(ConfirmCreatedTeamActivity.this, "Team is added", Toast.LENGTH_LONG).show();

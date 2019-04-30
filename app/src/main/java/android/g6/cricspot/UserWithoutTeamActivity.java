@@ -72,6 +72,19 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
                     nameAndLocationList); // create the adapter
 
             teamsListViewer.setAdapter(listAdapter);// pass adapter
+
+            /* ListViewer onClick Listener */
+            teamsListViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedItem = ((TextView) view.findViewById(R.id.row1)).getText().toString();
+
+                    intent = new Intent(UserWithoutTeamActivity.this, TeamDetailsActivity.class);
+                    intent.putExtra("tester", selectedItem);
+                    startActivity(intent);
+                    //Toast.makeText(UserWithoutTeamActivity.this, "Yet in Maintenance", Toast.LENGTH_SHORT).show();
+                }
+            });
         }else{
             teamsListViewer.setVisibility(View.INVISIBLE);
             loadTeamsBtn.setVisibility(View.VISIBLE);

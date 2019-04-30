@@ -241,4 +241,20 @@ public class DatabaseManager {
             }
         });
     }
+
+    public void updateTeamAttributeInFirebase(String dbMemberName, Team team){
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
+
+        dbReference.child(team.getName()).setValue(team).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                System.out.println(">>>>> Update is successful...");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                System.out.println(">>>>> Update is unsuccessful!");
+            }
+        });
+    }
 }

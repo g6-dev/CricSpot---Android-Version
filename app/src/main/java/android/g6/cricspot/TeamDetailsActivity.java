@@ -3,13 +3,12 @@ package android.g6.cricspot;
 import android.content.Context;
 import android.content.Intent;
 import android.g6.cricspot.CricClasses.DatabaseManager;
+import android.g6.cricspot.CricObjects.Player;
 import android.g6.cricspot.CricObjects.Team;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,25 +16,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class TeamDetailsActivity extends AppCompatActivity {
 
+    private String dbMemberNameForTeam = "Team";
+    private String dbMemberNameForPlayer = "Player";
+
     TextView teamName, teamLocation, txtErr;
     Button joinBtn;
     ListView playerListViewer;
     ArrayAdapter<String> listAdapter;
-    List<Team> playersList;
+    List<Team> teamsList;
     List<String> playersNameList = new ArrayList<>();
     String intentString;
     Team selectedTeam;
+    Player selectedPlayer;
+    Boolean canHeJoin = false;
+    DatabaseManager dbManager = new DatabaseManager();
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +50,11 @@ public class TeamDetailsActivity extends AppCompatActivity {
 
         intentString = getIntent().getStringExtra("tester");
 
-        playersList = UserWithoutTeamActivity.getTeamList();
+        teamsList = UserWithoutTeamActivity.getTeamList();
 
-        for (Team team: playersList){
+        for (Team team: teamsList){
             if(team.getName().equalsIgnoreCase(intentString)){
-                selectedTeam = team;
+                selectedTeam = team; // Got the team here!
             }
         }
 
@@ -63,6 +63,12 @@ public class TeamDetailsActivity extends AppCompatActivity {
         playersNameList.add(selectedTeam.getPlayer3());
         playersNameList.add(selectedTeam.getPlayer4());
         playersNameList.add(selectedTeam.getPlayer5());
+
+        for(String playerName: playersNameList){
+            if(playerName.equalsIgnoreCase("no")){
+                canHeJoin = true;
+            }
+        }
 
         teamName.setText(selectedTeam.getName());
         teamLocation.setText(selectedTeam.getLocation());
@@ -73,9 +79,51 @@ public class TeamDetailsActivity extends AppCompatActivity {
     }
 
     public void joinBtnClickedInTeamDetailsPage(View view) {
-        if(isInternetOn()) {
-            txtErr.setText("");
-            Toast.makeText(TeamDetailsActivity.this, "You clicked " + intentString, Toast.LENGTH_LONG).show();
+        if (isInternetOn()) {
+            if (canHeJoin) { // Can he join ?
+                txtErr.setText("");
+                Toast.makeText(TeamDetailsActivity.this, "You clicked " + intentString,
+                        Toast.LENGTH_LONG).show();
+
+                selectedPlayer = MainActivity.getUserPlayerObject();
+
+                /*TODO: Edit the team and set in MainActivity + update in database*/
+
+                //Edit the current Team object
+                if(selectedTeam.getPlayer1().equalsIgnoreCase("no")){
+                    selectedTeam.setPlayer1(selectedPlayer.getUserName());
+                }else if(selectedTeam.getPlayer2().equalsIgnoreCase("no")){
+                    selectedTeam.setPlayer2(selectedPlayer.getUserName());
+                }else if(selectedTeam.getPlayer3().equalsIgnoreCase("no")){
+                    selectedTeam.setPlayer3(selectedPlayer.getUserName());
+                }else if(selectedTeam.getPlayer4().equalsIgnoreCase("no")){
+                    selectedTeam.setPlayer4(selectedPlayer.getUserName());
+                }else if(selectedTeam.getPlayer5().equalsIgnoreCase("no")){
+                    selectedTeam.setPlayer5(selectedPlayer.getUserName());
+                }
+
+                // Updating in the firebase
+                dbManager.updateTeamAttributeInFirebase(dbMemberNameForTeam, selectedTeam);
+
+                //Setting TEAM object in MainActivity
+                MainActivity.setUserTeamObject(selectedTeam);
+
+                /*TODO: Edit the player and set in MainActivity + update in database*/
+                //Edit the current PLAYER object
+                selectedPlayer.setTeam(selectedTeam.getName());
+
+                //Update Player in the firebase
+                dbManager.updatePlayerAttributeInFirebase(dbMemberNameForPlayer, selectedPlayer);
+
+                //Update in MainActivity
+                MainActivity.setUserPlayerObject(selectedPlayer);
+
+                /* TODO: Redirect the page to UserWithTeam Activity */
+                intent = new Intent(TeamDetailsActivity.this, UserWithTeamActivity.class);
+                startActivity(intent);
+            } else { // If, No he can't join!
+                txtErr.setText("Can not join at this time!");
+            }
         }else{
             txtErr.setText(R.string.noInternet);
         }

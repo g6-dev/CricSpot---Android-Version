@@ -120,7 +120,9 @@ public class MainActivity extends AppCompatActivity {
                 Boolean logIn = false;
                 Boolean hasTeam = false;
                 for (int i=0; i<listOfPlayers.size(); i++){
-                    if(listOfPlayers.get(i).getName().equalsIgnoreCase(userName)){
+                    //First Check the userName of player
+                    if(listOfPlayers.get(i).getUserName().equalsIgnoreCase(userName)){
+                        //Second check the password of the player
                         if (listOfPlayers.get(i).getPassword().equalsIgnoreCase(password)){
                             //Found the user! name is okay + password is okay
                             logIn = true;
