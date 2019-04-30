@@ -1,7 +1,12 @@
 package android.g6.cricspot;
 
+import android.content.Context;
 import android.content.Intent;
+import android.g6.cricspot.CricClasses.DatabaseManager;
+import android.g6.cricspot.CricObjects.Player;
 import android.g6.cricspot.CricObjects.Team;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,13 +21,18 @@ import java.util.List;
 
 public class UserWithTeamActivity extends AppCompatActivity {
 
+    private String dbMemberNameForTeam = "Team";
+    private String dbMemberNameForPlayer = "Player";
+
     Button exitTeamBtn, findPlayerBtn, findMatchBtn;
     TextView teamNameTxt, teamLocationTxt, txtErr;
     ListView playerListViewer;
-    Team team;
+    Team selectedTeam;
+    Player selectedPlayer;
     List<String> listOfPlayers = new ArrayList<>();
     ArrayAdapter<String> listAdapter;
     Intent intent;
+    DatabaseManager dbManager = new DatabaseManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +47,17 @@ public class UserWithTeamActivity extends AppCompatActivity {
         txtErr = findViewById(R.id.txtErrInUserWithTeamPage);
         playerListViewer = findViewById(R.id.playerListInUserWithTeamPage);
 
-        team = MainActivity.getUserTeamObject();
-        teamNameTxt.setText(team.getName());
-        teamLocationTxt.setText(team.getLocation());
+        selectedTeam = MainActivity.getUserTeamObject();
+        selectedPlayer = MainActivity.getUserPlayerObject();
 
-        listOfPlayers.add(team.getPlayer1());
-        listOfPlayers.add(team.getPlayer2());
-        listOfPlayers.add(team.getPlayer3());
-        listOfPlayers.add(team.getPlayer4());
-        listOfPlayers.add(team.getPlayer5());
+        teamNameTxt.setText(selectedTeam.getName());
+        teamLocationTxt.setText(selectedTeam.getLocation());
+
+        listOfPlayers.add(selectedTeam.getPlayer1());
+        listOfPlayers.add(selectedTeam.getPlayer2());
+        listOfPlayers.add(selectedTeam.getPlayer3());
+        listOfPlayers.add(selectedTeam.getPlayer4());
+        listOfPlayers.add(selectedTeam.getPlayer5());
 
         listAdapter = new ArrayAdapter<String>(UserWithTeamActivity.this,
                 android.R.layout.simple_list_item_1,listOfPlayers);
@@ -53,7 +65,46 @@ public class UserWithTeamActivity extends AppCompatActivity {
     }
 
     public void exitTeamIsClickedInUserWithTeamPage(View view) {
-        Toast.makeText(UserWithTeamActivity.this, "Yet in maintenance", Toast.LENGTH_LONG).show();
+        if(isInternetOn()) {
+            //Toast.makeText(UserWithTeamActivity.this, "Yet in maintenance", Toast.LENGTH_LONG).show();
+            /*TODO: Remove the player from the team, update in firebase + MainActivity*/
+
+            // update the team object -> remove the player
+            if (selectedTeam.getPlayer1().equalsIgnoreCase(selectedPlayer.getUserName())){
+                selectedTeam.setPlayer1("no");
+            }else if (selectedTeam.getPlayer2().equalsIgnoreCase(selectedPlayer.getUserName())){
+                selectedTeam.setPlayer2("no");
+            }else if (selectedTeam.getPlayer3().equalsIgnoreCase(selectedPlayer.getUserName())){
+                selectedTeam.setPlayer3("no");
+            }else if (selectedTeam.getPlayer4().equalsIgnoreCase(selectedPlayer.getUserName())){
+                selectedTeam.setPlayer4("no");
+            }else if (selectedTeam.getPlayer5().equalsIgnoreCase(selectedPlayer.getUserName())){
+                selectedTeam.setPlayer5("no");
+            }
+
+            //Update team in firebase
+            dbManager.updateTeamAttributeInFirebase(dbMemberNameForTeam, selectedTeam);
+
+            //update team in MainActivity
+            MainActivity.setUserTeamObject(selectedTeam);
+
+            /*TODO: Remove the team from the player, update in the firebase + MainActivity*/
+
+            //update the player object -> remove the team
+            selectedPlayer.setTeam("no");
+
+            //update player in firebase
+            dbManager.updatePlayerAttributeInFirebase(dbMemberNameForPlayer, selectedPlayer);
+
+            //update player in MainActivity
+            MainActivity.setUserPlayerObject(selectedPlayer);
+
+            intent = new Intent(UserWithTeamActivity.this, UserWithoutTeamActivity.class);
+            startActivity(intent);
+
+        }else{
+            txtErr.setText(R.string.noInternet);
+        }
     }
 
     public void findPlayerClickedInUserWithTeamPage(View view) {
@@ -67,6 +118,18 @@ public class UserWithTeamActivity extends AppCompatActivity {
     public void signOutClickedInUserWithTeamPage(View view) {
         intent = new Intent(UserWithTeamActivity.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    /* To check the internet connection */
+    public Boolean isInternetOn(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
