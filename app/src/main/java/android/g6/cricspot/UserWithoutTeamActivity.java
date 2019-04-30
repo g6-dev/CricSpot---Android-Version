@@ -61,6 +61,7 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
 
         if (DatabaseManager.getIsTeamsRetrieved()) {
             teamList.clear();
+            nameAndLocationList.clear();
             teamList = DatabaseManager.getTeamsList();
             System.out.println(">>>>> team list size = " + teamList.size());// testing purpose
             for (Team team : teamList) {

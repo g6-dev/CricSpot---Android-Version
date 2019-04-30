@@ -108,7 +108,16 @@ public class UserWithTeamActivity extends AppCompatActivity {
     }
 
     public void findPlayerClickedInUserWithTeamPage(View view) {
-        Toast.makeText(UserWithTeamActivity.this, "Yet in maintenance", Toast.LENGTH_LONG).show();
+        if(isInternetOn()) {
+            //Toast.makeText(UserWithTeamActivity.this, "Yet in maintenance", Toast.LENGTH_LONG).show();
+            /*TODO: Take the players list*/
+            /*TODO: Set in the listViewer*/
+            /*TODO: ListViewer onClick*/
+            intent = new Intent(UserWithTeamActivity.this, FindPlayerActivity.class);
+            startActivity(intent);
+        }else{
+            txtErr.setText(R.string.noInternet);
+        }
     }
 
     public void findMatchClickedInUserWithTeamPage(View view) {
