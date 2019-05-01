@@ -15,12 +15,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserWithoutTeamActivity extends AppCompatActivity {
 
-    //final static String dbMemberNameForTeam = "Team";
+    final String dbMemberNameForTeam = "Team";
 
     TextView heyUserTxt, joinTeamTxt, txtErr;
     Button createTeamBtn, loadTeamsBtn;
@@ -29,6 +30,7 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
     private static List<Team> teamList = new ArrayList<>();
     List<NameAndLocation> nameAndLocationList = new ArrayList<>();
     Intent intent;
+    DatabaseManager dbManager = new DatabaseManager();
 
     public static List<Team> getTeamList() {
         return teamList;
@@ -45,23 +47,12 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
         createTeamBtn = findViewById(R.id.createTeamBtnInUserWithoutTeamPage);
         loadTeamsBtn = findViewById(R.id.loadTeamsBtnInUserWithoutTeamPage);
         teamsListViewer = findViewById(R.id.teamListInUserWithoutTeamPage);
-        heyUserTxt.setText("Hey "+MainActivity.getUserPlayerObject().getName());
+        heyUserTxt.setText("Hey " + MainActivity.getUserPlayerObject().getName());
 
         teamList.clear();
         nameAndLocationList.clear(); // clear before viewing
 
-//        do {
-//            if(teamList.size() == 0) {
-//                txtErr.setText("Loading... Retrieving from database!");
-//            }else{
-//                txtErr.setText("");
-//                teamList = DatabaseManager.getTeamsList();
-//            }
-//        }while(teamList.size() == 0);
-
         if (DatabaseManager.getIsTeamsRetrieved()) {
-            teamList.clear();
-            nameAndLocationList.clear();
             teamList = DatabaseManager.getTeamsList();
             System.out.println(">>>>> team list size = " + teamList.size());// testing purpose
             for (Team team : teamList) {
@@ -86,7 +77,7 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
                     //Toast.makeText(UserWithoutTeamActivity.this, "Yet in Maintenance", Toast.LENGTH_SHORT).show();
                 }
             });
-        }else{
+        } else {
             teamsListViewer.setVisibility(View.INVISIBLE);
             loadTeamsBtn.setVisibility(View.VISIBLE);
         }
@@ -135,19 +126,21 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
 
     public void createTeamClickedInUserWithoutTeamPage(View view) {
         /*TODO: Create A team */
-        if(isInternetOn()){
+        if (isInternetOn()) {
             txtErr.setText("");
             intent = new Intent(UserWithoutTeamActivity.this, CreateTeamActivity.class);
             startActivity(intent);
-        }else{
+        } else {
             txtErr.setText(R.string.noInternet);
         }
     }
 
     public void loadTeamsIsClickedInUserWithoutTeamPage(View view) {
-        if(isInternetOn()) { // Is internet on?
-            if (DatabaseManager.getIsTeamsRetrieved()) { // Is there anything to display?
-                teamList.clear();
+        if (isInternetOn()) { // Is internet on?
+            if (!DatabaseManager.getIsTeamsRetrieved()) {
+                dbManager.retrieveAllTeamsFromDatabase(dbMemberNameForTeam);
+                txtErr.setText("Retrieving data, try in a while!!!");
+            } else {
                 teamList = DatabaseManager.getTeamsList();
                 txtErr.setText(""); // No errors
                 loadTeamsBtn.setVisibility(View.INVISIBLE); //make button invisible
@@ -178,18 +171,16 @@ public class UserWithoutTeamActivity extends AppCompatActivity {
                         //Toast.makeText(UserWithoutTeamActivity.this, "Yet in Maintenance", Toast.LENGTH_SHORT).show();
                     }
                 });
-            }else{
-                txtErr.setText("No items found, try again in a while!");
             }
-        }else{
+        } else {
             txtErr.setText("Cannot reach the Internet!");
         }
     }
 
     /* To check the internet connection */
-    public Boolean isInternetOn(){
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+    public Boolean isInternetOn() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             //we are connected to a network
             return true;

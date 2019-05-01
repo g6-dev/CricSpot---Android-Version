@@ -1,11 +1,14 @@
 package android.g6.cricspot;
 
+import android.content.Intent;
 import android.g6.cricspot.CricClasses.DatabaseManager;
 import android.g6.cricspot.CricClasses.TwoRowListAdapter;
 import android.g6.cricspot.CricObjects.NameAndLocation;
 import android.g6.cricspot.CricObjects.Player;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,6 +22,7 @@ public class FindPlayerActivity extends AppCompatActivity {
     List<Player> listOfAllPlayers = new ArrayList<>();
     List<NameAndLocation> playersNameLocationList = new ArrayList<>();
     TwoRowListAdapter listAdapter;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +38,24 @@ public class FindPlayerActivity extends AppCompatActivity {
         playersNameLocationList.clear();
         for (Player player: listOfAllPlayers){
             playersNameLocationList.add(new NameAndLocation(player.getUserName(), "colombo"));
+            System.out.println(">>>>> player: "+player);
         }
 
         listAdapter = new TwoRowListAdapter(FindPlayerActivity.this, R.layout.listview_2row_activity,
                 playersNameLocationList);
         listView.setAdapter(listAdapter);
+
+        /* ListViewer onClick Listener */
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = ((TextView) view.findViewById(R.id.row1)).getText().toString();
+
+                intent = new Intent(FindPlayerActivity.this, PlayerDetailsActivity.class);
+                intent.putExtra("tester", selectedItem);
+                startActivity(intent);
+                //Toast.makeText(UserWithoutTeamActivity.this, "Yet in Maintenance", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

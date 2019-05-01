@@ -19,6 +19,19 @@ import java.util.List;
 
 public class DatabaseManager {
 
+    //--------------------------- DATABASE MEMBER KEY ----------------------------------------------
+    private static final String dbMemberNameForTeam = "Team";
+    private static final String dbMemberNameForPlayer = "Player";
+
+    public static String getDbMemberNameForTeam() {
+        return dbMemberNameForTeam;
+    }
+
+    public static String getDbMemberNameForPlayer() {
+        return dbMemberNameForPlayer;
+    }
+//--------------------------- DATABASE MEMBER KEY ----------------------------------------------
+
     //----------------------------------------------------------------------------------------------
     //-------- STATIC LIST TO ACCESS FIREBASE DATA === PLAYER --------------------------------------
     private Player player;
@@ -215,12 +228,13 @@ public class DatabaseManager {
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
         Log.d(">>>>>", "Starting method");
         isTeamsRetrieved = false;
+//        teamsList.clear();
 
         dbReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d(">>>>>", "On 1 st method");
                 teamsList.clear();
+                Log.d(">>>>>", "On 1 st method");
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Log.d(">>>>>", "On 2 nd method");
                     team = postSnapshot.getValue(Team.class);
