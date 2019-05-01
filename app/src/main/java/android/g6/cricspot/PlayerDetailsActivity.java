@@ -62,7 +62,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
         if(foundPlayer){
             userNameE.setText(selectedPlayer.getUserName());
             nameE.setText(selectedPlayer.getName());
-            locationE.setText("Colombo"); // testing purpose
+            locationE.setText(selectedPlayer.getLocation());
             userNameE.setEnabled(false);
             nameE.setEnabled(false);
             locationE.setEnabled(false);

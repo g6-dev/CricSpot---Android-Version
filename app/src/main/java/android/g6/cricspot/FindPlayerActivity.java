@@ -36,9 +36,13 @@ public class FindPlayerActivity extends AppCompatActivity {
         listOfAllPlayers = DatabaseManager.getPlayersList();
 
         playersNameLocationList.clear();
-        for (Player player: listOfAllPlayers){
-            playersNameLocationList.add(new NameAndLocation(player.getUserName(), "colombo"));
-            System.out.println(">>>>> player: "+player);
+
+        //Get the players who doesn't have a team yet!!!
+        for (Player player: listOfAllPlayers){ // Run whole players
+            if(player.getTeam().equalsIgnoreCase("no")) { // players with no team ! :D
+                playersNameLocationList.add(new NameAndLocation(player.getUserName(), player.getLocation()));
+                System.out.println(">>>>> player: " + player);
+            }
         }
 
         listAdapter = new TwoRowListAdapter(FindPlayerActivity.this, R.layout.listview_2row_activity,

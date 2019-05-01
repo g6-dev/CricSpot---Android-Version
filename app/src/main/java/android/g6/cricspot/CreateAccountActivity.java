@@ -20,9 +20,9 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     final static String dbMemberNameForPlayer = "Player";
 
-    TextView nameTxt, userNameTxt, passwordTxt, ageTxt, phoneTxt, txtErr;
-    EditText nameE, userNameE, passwordE, ageE, phoneE;
-    String name, userName, password, age, phone;
+    TextView nameTxt, userNameTxt, passwordTxt, ageTxt, phoneTxt, txtErr, locationTxt;
+    EditText nameE, userNameE, passwordE, ageE, phoneE, locationE;
+    String name, userName, password, age, phone, location;
     Button createAccountBtn;
     Player player;
     List<Player> playerList;
@@ -40,12 +40,14 @@ public class CreateAccountActivity extends AppCompatActivity {
         ageTxt = findViewById(R.id.ageTxtInCreateAccountPage);
         phoneTxt = findViewById(R.id.phoneTxtInCreateAccountPage);
         txtErr = findViewById(R.id.txtErrInCreateAccountPage);
+        locationTxt = findViewById(R.id.locationTxtInCreateAccountPage);
 
         nameE = findViewById(R.id.nameInCreateAccountPage);
         userNameE = findViewById(R.id.userNameInCreateAccountPage);
         passwordE = findViewById(R.id.passwordInCreateAccountPage);
         ageE = findViewById(R.id.ageInCreateAccountPage);
         phoneE = findViewById(R.id.phoneInCreateAccountPage);
+        locationE = findViewById(R.id.locationInCreateAccountPage);
 
         createAccountBtn = findViewById(R.id.createAccountBtnInCreateAccountPage);
 
@@ -67,6 +69,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         password = passwordE.getText().toString();
         age = ageE.getText().toString();
         phone = phoneE.getText().toString();
+        location = locationE.getText().toString();
 
         if(!isInternetOn()){
             txtErr.setText(R.string.noInternet);
@@ -75,7 +78,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         }else {
             txtErr.setText("");
 
-            player = new Player(name, userName, password, age, phone, "no");
+            player = new Player(name, userName, password, age, phone, "no", location, "user");
 
             //Adding the player into firebase
             dbManager.addPlayerToFirebase(dbMemberNameForPlayer, player);
@@ -115,6 +118,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         passwordE.setText("");
         ageE.setText("");
         phoneE.setText("");
+        locationE.setText("");
     }
 
 }

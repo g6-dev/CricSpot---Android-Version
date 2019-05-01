@@ -6,19 +6,24 @@ public class Player {
     private String userName;
     private String password;
     private String age;
+    private String location;
+    private String type;
     private String phone;
     private String team;
 
     public Player() {
     }
 
-    public Player(String name, String userName, String password, String age, String phone, String team) {
+    public Player(String name, String userName, String password, String age, String phone,
+                  String team, String location, String type) {
         this.name = name;
         this.userName = userName;
         this.password = password;
         this.age = age;
         this.phone = phone;
         this.team = team;
+        this.location = location;
+        this.type = type;
     }
 
     public String getName() {
@@ -53,6 +58,22 @@ public class Player {
         this.age = age;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -72,6 +93,6 @@ public class Player {
     @Override
     public String toString() {
         return "Player : {"+ this.name + ", " + this.userName + ", " + this.password + ", " +
-                this.age + ", " + this.phone + "}";
+                this.age + ", " + this.phone + ", " + this.location + ", " + this.type + "}";
     }
 }

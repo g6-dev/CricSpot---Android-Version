@@ -35,29 +35,29 @@ public class UserWithTeamActivity extends AppCompatActivity {
     DatabaseManager dbManager = new DatabaseManager();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_with_team);
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_user_with_team);
 
-        exitTeamBtn = findViewById(R.id.exitTeamBtnInUserWithTeamPage);
-        findPlayerBtn = findViewById(R.id.findPlayerBtnInUserWithTeamPage);
-        findMatchBtn = findViewById(R.id.findMatchBtnInUserWithTeamPage);
-        teamNameTxt = findViewById(R.id.teamNameTxtInUserWithTeamPage);
-        teamLocationTxt = findViewById(R.id.locationTxtInUserWithTeamPage);
-        txtErr = findViewById(R.id.txtErrInUserWithTeamPage);
-        playerListViewer = findViewById(R.id.playerListInUserWithTeamPage);
+            exitTeamBtn = findViewById(R.id.exitTeamBtnInUserWithTeamPage);
+            findPlayerBtn = findViewById(R.id.findPlayerBtnInUserWithTeamPage);
+            findMatchBtn = findViewById(R.id.findMatchBtnInUserWithTeamPage);
+            teamNameTxt = findViewById(R.id.teamNameTxtInUserWithTeamPage);
+            teamLocationTxt = findViewById(R.id.locationTxtInUserWithTeamPage);
+            txtErr = findViewById(R.id.txtErrInUserWithTeamPage);
+            playerListViewer = findViewById(R.id.playerListInUserWithTeamPage);
 
-        selectedTeam = MainActivity.getUserTeamObject();
-        selectedPlayer = MainActivity.getUserPlayerObject();
+            selectedTeam = MainActivity.getUserTeamObject();
+            selectedPlayer = MainActivity.getUserPlayerObject();
 
-        teamNameTxt.setText(selectedTeam.getName());
-        teamLocationTxt.setText(selectedTeam.getLocation());
+            teamNameTxt.setText(selectedTeam.getName());
+            teamLocationTxt.setText(selectedTeam.getLocation());
 
-        listOfPlayers.add(selectedTeam.getPlayer1());
-        listOfPlayers.add(selectedTeam.getPlayer2());
-        listOfPlayers.add(selectedTeam.getPlayer3());
-        listOfPlayers.add(selectedTeam.getPlayer4());
-        listOfPlayers.add(selectedTeam.getPlayer5());
+            listOfPlayers.add(selectedTeam.getPlayer1());
+            listOfPlayers.add(selectedTeam.getPlayer2());
+            listOfPlayers.add(selectedTeam.getPlayer3());
+            listOfPlayers.add(selectedTeam.getPlayer4());
+            listOfPlayers.add(selectedTeam.getPlayer5());
 
         listAdapter = new ArrayAdapter<String>(UserWithTeamActivity.this,
                 android.R.layout.simple_list_item_1,listOfPlayers);

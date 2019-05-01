@@ -112,10 +112,12 @@ public class DatabaseManager {
                 String age = dataSnapshot.child("age").getValue().toString();
                 String phone = dataSnapshot.child("phone").getValue().toString();
                 String team = dataSnapshot.child("team").getValue().toString();
+                String location = dataSnapshot.child("location").getValue().toString();
+                String type = dataSnapshot.child("type").getValue().toString();
 
                 Log.d(">>>>>", "["+name+", "+userName+", "+password+", "+age+", "+phone+
-                        ", "+team+"]");
-                player = new Player(name, userName, password, age, phone, team);
+                        ", "+team+", "+location+", "+type+"]");
+                player = new Player(name, userName, password, age, phone, team, location, type);
             }
 
             @Override
@@ -164,7 +166,7 @@ public class DatabaseManager {
     public void updatePlayerAttributeInFirebase(String dbMemberName, Player player){
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
 
-        dbReference.child(player.getName()).setValue(player).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbReference.child(player.getUserName()).setValue(player).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 System.out.println(">>>>> Update is successful...");
