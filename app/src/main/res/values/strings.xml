@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CricSpot</string>
+    <string name="app_name">CrickSpot</string>
     <string name="noInternet">Can not reach the internet!</string>
     <string name="fieldsEmpty">Some fields are empty!</string>
 </resources>
