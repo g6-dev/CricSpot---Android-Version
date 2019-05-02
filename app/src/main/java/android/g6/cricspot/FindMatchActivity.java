@@ -59,10 +59,10 @@ public class FindMatchActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = ((TextView) view.findViewById(R.id.row1)).getText().toString();
 
-                //intent = new Intent(FindMatchActivity.this, .class);
-                //intent.putExtra("tester", selectedItem);
-                //startActivity(intent);
-                Toast.makeText(FindMatchActivity.this, "you selected: "+selectedItem, Toast.LENGTH_SHORT).show();
+                intent = new Intent(FindMatchActivity.this, TeamDetailsForMatchActivity.class);
+                intent.putExtra("tester", selectedItem);
+                startActivity(intent);
+                //Toast.makeText(FindMatchActivity.this, "you selected: "+selectedItem, Toast.LENGTH_SHORT).show();
             }
         });
     }

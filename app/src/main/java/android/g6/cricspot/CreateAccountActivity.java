@@ -73,7 +73,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         if(!isInternetOn()){
             txtErr.setText(R.string.noInternet);
-        }else if(fieldsAreEmpty(name, userName, password, age, phone)){
+        }else if(fieldsAreEmpty(name, userName, password, age, phone, location)){
             txtErr.setText(R.string.fieldsEmpty);
         }else {
             txtErr.setText("");
@@ -89,11 +89,12 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     // Check any empty inputs
-    private boolean fieldsAreEmpty(String name, String userName, String password, String age, String phone) {
+    private boolean fieldsAreEmpty(String name, String userName, String password, String age,
+                                   String phone, String location) {
 
         if(name.equalsIgnoreCase("") || userName.equalsIgnoreCase("") ||
            password.equalsIgnoreCase("") || age.equalsIgnoreCase("") ||
-           phone.equalsIgnoreCase("")){
+           phone.equalsIgnoreCase("") || location.equalsIgnoreCase("")){
             return true;
         }else {
             return false;

@@ -21,9 +21,6 @@ import java.util.List;
 
 public class TeamDetailsActivity extends AppCompatActivity {
 
-    private String dbMemberNameForTeam = "Team";
-    private String dbMemberNameForPlayer = "Player";
-
     TextView teamName, teamLocation, txtErr;
     Button joinBtn;
     ListView playerListViewer;
@@ -103,7 +100,7 @@ public class TeamDetailsActivity extends AppCompatActivity {
                 }
 
                 // Updating in the firebase
-                dbManager.updateTeamAttributeInFirebase(dbMemberNameForTeam, selectedTeam);
+                dbManager.updateTeamAttributeInFirebase(DatabaseManager.getDbMemberNameForTeam(), selectedTeam);
 
                 //Setting TEAM object in MainActivity
                 MainActivity.setUserTeamObject(selectedTeam);
@@ -113,7 +110,7 @@ public class TeamDetailsActivity extends AppCompatActivity {
                 selectedPlayer.setTeam(selectedTeam.getName());
 
                 //Update Player in the firebase
-                dbManager.updatePlayerAttributeInFirebase(dbMemberNameForPlayer, selectedPlayer);
+                dbManager.updatePlayerAttributeInFirebase(DatabaseManager.getDbMemberNameForPlayer(), selectedPlayer);
 
                 //Update in MainActivity
                 MainActivity.setUserPlayerObject(selectedPlayer);

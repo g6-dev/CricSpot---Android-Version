@@ -69,18 +69,22 @@ public class CreateTeamActivity extends AppCompatActivity {
             teamLocation = teamLocationE.getText().toString();
 
             if(!(teamName.equalsIgnoreCase("") || teamLocation.equalsIgnoreCase(""))){
-                txtErr.setText("");
-                Toast.makeText(CreateTeamActivity.this, "In maintenance", Toast.LENGTH_SHORT).show();
+                if (teamName.equalsIgnoreCase("no")) {
+                    txtErr.setText("");
+                    Toast.makeText(CreateTeamActivity.this, "In maintenance", Toast.LENGTH_SHORT).show();
 
-                // Creating a new Team with User as the first member
-                team = new Team(teamName, teamLocation, MainActivity.getUserPlayerObject().getUserName(),
-                        "no", "no",
-                        "no", "no", false);
+                    // Creating a new Team with User as the first member
+                    team = new Team(teamName, teamLocation, MainActivity.getUserPlayerObject().getUserName(),
+                            "no", "no",
+                            "no", "no", false);
 
-                setThisTeam(team);
+                    setThisTeam(team);
 
-                intent = new Intent(CreateTeamActivity.this, ConfirmCreatedTeamActivity.class);
-                startActivity(intent);
+                    intent = new Intent(CreateTeamActivity.this, ConfirmCreatedTeamActivity.class);
+                    startActivity(intent);
+                }else{
+                    txtErr.setText("Can not set team as 'NO' !");
+                }
             }else{
                 txtErr.setText(R.string.fieldsEmpty);
             }
