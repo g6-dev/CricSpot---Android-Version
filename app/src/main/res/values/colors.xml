@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="col1">#E6E6E7</color>
-    <color name="col2">#BEBEBE</color>
+    <color name="col2">#CECDCD</color>
     <color name="loginColor">#79A727</color>
 
     <color name="colorPrimary">#008577</color>
