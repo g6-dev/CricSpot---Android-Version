@@ -41,9 +41,11 @@ public class FindMatchActivity extends AppCompatActivity {
 
         //Get the teams who doesn't have a team yet!!!
         for (Team team: listOfAllTeams){ // Run whole teams
-            if(! team.getPlaying()) { // teams with false as isPlaying ! :D
-                playersNameLocationList.add(new NameAndLocation(team.getName(), team.getLocation()));
-                System.out.println(">>>>> team: " + team);
+            if(!(team.getName().equals(MainActivity.getUserTeamObject().getName()))) {
+                if (!team.getPlaying()) { // teams with false as isPlaying ! :D
+                    playersNameLocationList.add(new NameAndLocation(team.getName(), team.getLocation()));
+                    System.out.println(">>>>> team: " + team);
+                }
             }
         }
 
