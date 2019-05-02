@@ -92,6 +92,6 @@ public class Team {
 
     @Override
     public String toString() {
-        return this.name;
+        return "[ name: "+this.name+" isPlaying: "+ this.isPlaying+" ]";
     }
 }

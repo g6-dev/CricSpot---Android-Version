@@ -57,8 +57,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Next"
         android:onClick="nextClickedInCreateTeamPage"
+        android:text="Next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtErrInCreateTeamPage" />
@@ -67,8 +67,8 @@
         android:id="@+id/txtErrInCreateTeamPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/redColor"
         android:layout_marginTop="10dp"
+        android:textColor="@color/redColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/teamLocationInCreateTeamPage" />

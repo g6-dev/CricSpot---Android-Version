@@ -21,10 +21,7 @@ import java.util.List;
 
 public class UserWithTeamActivity extends AppCompatActivity {
 
-    private String dbMemberNameForTeam = "Team";
-    private String dbMemberNameForPlayer = "Player";
-
-    Button exitTeamBtn, findPlayerBtn, findMatchBtn;
+    Button exitTeamBtn, findPlayerBtn, findMatchBtn, signOutBtn;
     TextView teamNameTxt, teamLocationTxt, txtErr;
     ListView playerListViewer;
     Team selectedTeam;
@@ -42,6 +39,7 @@ public class UserWithTeamActivity extends AppCompatActivity {
             exitTeamBtn = findViewById(R.id.exitTeamBtnInUserWithTeamPage);
             findPlayerBtn = findViewById(R.id.findPlayerBtnInUserWithTeamPage);
             findMatchBtn = findViewById(R.id.findMatchBtnInUserWithTeamPage);
+            signOutBtn = findViewById(R.id.signOutInUserWithTeamPage);
             teamNameTxt = findViewById(R.id.teamNameTxtInUserWithTeamPage);
             teamLocationTxt = findViewById(R.id.locationTxtInUserWithTeamPage);
             txtErr = findViewById(R.id.txtErrInUserWithTeamPage);
@@ -83,7 +81,7 @@ public class UserWithTeamActivity extends AppCompatActivity {
             }
 
             //Update team in firebase
-            dbManager.updateTeamAttributeInFirebase(dbMemberNameForTeam, selectedTeam);
+            dbManager.updateTeamAttributeInFirebase(DatabaseManager.getDbMemberNameForTeam(), selectedTeam);
 
             //update team in MainActivity
             MainActivity.setUserTeamObject(selectedTeam);
@@ -94,7 +92,7 @@ public class UserWithTeamActivity extends AppCompatActivity {
             selectedPlayer.setTeam("no");
 
             //update player in firebase
-            dbManager.updatePlayerAttributeInFirebase(dbMemberNameForPlayer, selectedPlayer);
+            dbManager.updatePlayerAttributeInFirebase(DatabaseManager.getDbMemberNameForPlayer(), selectedPlayer);
 
             //update player in MainActivity
             MainActivity.setUserPlayerObject(selectedPlayer);
@@ -110,9 +108,6 @@ public class UserWithTeamActivity extends AppCompatActivity {
     public void findPlayerClickedInUserWithTeamPage(View view) {
         if(isInternetOn()) {
             //Toast.makeText(UserWithTeamActivity.this, "Yet in maintenance", Toast.LENGTH_LONG).show();
-            /*TODO: Take the players list*/
-            /*TODO: Set in the listViewer*/
-            /*TODO: ListViewer onClick*/
             intent = new Intent(UserWithTeamActivity.this, FindPlayerActivity.class);
             startActivity(intent);
         }else{
@@ -121,12 +116,17 @@ public class UserWithTeamActivity extends AppCompatActivity {
     }
 
     public void findMatchClickedInUserWithTeamPage(View view) {
-        Toast.makeText(UserWithTeamActivity.this, "Yet in maintenance", Toast.LENGTH_LONG).show();
+        intent = new Intent(UserWithTeamActivity.this, FindMatchActivity.class);
+        startActivity(intent);
+        //Toast.makeText(UserWithTeamActivity.this, "Yet in maintenance", Toast.LENGTH_LONG).show();
     }
 
     public void signOutClickedInUserWithTeamPage(View view) {
         intent = new Intent(UserWithTeamActivity.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    public void matchRequestsClickedInUserWithTeamClicked(View view) {
     }
 
     /* To check the internet connection */

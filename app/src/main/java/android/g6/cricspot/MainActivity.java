@@ -197,26 +197,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void testingPages(View view) {
-//        intent = new Intent(MainActivity.this, UserWithTeamActivity.class);
-//        startActivity(intent);
+        intent = new Intent(MainActivity.this, FindMatchActivity.class);
+        startActivity(intent);
 
-//        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberNameForPlayer);
-//
-//        dbReference.child("testing4").setValue(
-//                new Player("UpdatedTesting4", "ut4", "srh", "kkr", "dd", "csk")
-//        ).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                //Updated successfully
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                //Update failed
-//            }
-//        });
-
-        System.out.println(">>>>> Nothing is tested here!");
+       // System.out.println(">>>>> Nothing is tested here!");
     }
 
     @Override
