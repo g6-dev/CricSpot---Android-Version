@@ -1,12 +1,18 @@
 package android.g6.cricspot;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.g6.cricspot.CricClasses.DatabaseManager;
 import android.g6.cricspot.CricObjects.Player;
 import android.g6.cricspot.CricObjects.Team;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+<<<<<<< HEAD
+=======
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+>>>>>>> df6818bfa41151ee4e34d61aa5bf03d15f6d7aa8
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -79,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         String userName = userNameE.getText().toString();
         String password = passwordE.getText().toString();
 
-        if(isInternetOn()) {
+        if(isInternetOn(MainActivity.this)) {
             if (userName.equalsIgnoreCase("") || password.equalsIgnoreCase("")) {
                 txtErr.setText(R.string.fieldsEmpty);
             } else {
@@ -144,7 +150,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }else{
-            txtErr.setText(R.string.noInternet);
+            buildDialog(MainActivity.this).show();
+           // txtErr.setText(R.string.noInternet);
         }
 
 
@@ -152,25 +159,52 @@ public class MainActivity extends AppCompatActivity {
 
     public void createAccountClickedInLoginPage(View view) {
         /* Page redirected to Create Account page */
-        if(isInternetOn()) {
+        if(isInternetOn(MainActivity.this)) {
             txtErr.setText("");
             intent = new Intent(MainActivity.this, CreateAccountActivity.class);
             startActivity(intent);
         }else{
+            buildDialog(MainActivity.this).show();
             txtErr.setText(R.string.noInternet);
         }
     }
 
     /* To check the internet connection */
-    public Boolean isInternetOn(){
+    public Boolean isInternetOn(Context context){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+        /*if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             //we are connected to a network
             return true;
         } else {
             return false;
+        }*/
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()){
+            android.net.NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            android.net.NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            if ((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting())){
+                return true;
+            }else{
+                return false;
+            }
+        }else {
+            return false;
         }
+    }
+
+    public AlertDialog.Builder buildDialog(Context context){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Connection Error");
+        builder.setMessage("Check your internet connection and try again!");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        return builder;
     }
 
     public void testingPages(View view) {
