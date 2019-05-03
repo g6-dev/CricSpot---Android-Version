@@ -8,11 +8,7 @@ import android.g6.cricspot.CricObjects.Player;
 import android.g6.cricspot.CricObjects.Team;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-<<<<<<< HEAD
-=======
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
->>>>>>> df6818bfa41151ee4e34d61aa5bf03d15f6d7aa8
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
