@@ -32,51 +32,51 @@ public class UserWithTeamActivity extends AppCompatActivity {
     DatabaseManager dbManager = new DatabaseManager();
 
     @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_user_with_team);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_with_team);
 
-            exitTeamBtn = findViewById(R.id.exitTeamBtnInUserWithTeamPage);
-            findPlayerBtn = findViewById(R.id.findPlayerBtnInUserWithTeamPage);
-            findMatchBtn = findViewById(R.id.findMatchBtnInUserWithTeamPage);
-            signOutBtn = findViewById(R.id.signOutInUserWithTeamPage);
-            teamNameTxt = findViewById(R.id.teamNameTxtInUserWithTeamPage);
-            teamLocationTxt = findViewById(R.id.locationTxtInUserWithTeamPage);
-            txtErr = findViewById(R.id.txtErrInUserWithTeamPage);
-            playerListViewer = findViewById(R.id.playerListInUserWithTeamPage);
+        exitTeamBtn = findViewById(R.id.exitTeamBtnInUserWithTeamPage);
+        findPlayerBtn = findViewById(R.id.findPlayerBtnInUserWithTeamPage);
+        findMatchBtn = findViewById(R.id.findMatchBtnInUserWithTeamPage);
+        signOutBtn = findViewById(R.id.signOutInUserWithTeamPage);
+        teamNameTxt = findViewById(R.id.teamNameTxtInUserWithTeamPage);
+        teamLocationTxt = findViewById(R.id.locationTxtInUserWithTeamPage);
+        txtErr = findViewById(R.id.txtErrInUserWithTeamPage);
+        playerListViewer = findViewById(R.id.playerListInUserWithTeamPage);
 
-            selectedTeam = MainActivity.getUserTeamObject();
-            selectedPlayer = MainActivity.getUserPlayerObject();
+        selectedTeam = MainActivity.getUserTeamObject();
+        selectedPlayer = MainActivity.getUserPlayerObject();
 
-            teamNameTxt.setText(selectedTeam.getName());
-            teamLocationTxt.setText(selectedTeam.getLocation());
+        teamNameTxt.setText(selectedTeam.getName());
+        teamLocationTxt.setText(selectedTeam.getLocation());
 
-            listOfPlayers.add(selectedTeam.getPlayer1());
-            listOfPlayers.add(selectedTeam.getPlayer2());
-            listOfPlayers.add(selectedTeam.getPlayer3());
-            listOfPlayers.add(selectedTeam.getPlayer4());
-            listOfPlayers.add(selectedTeam.getPlayer5());
+        listOfPlayers.add(selectedTeam.getPlayer1());
+        listOfPlayers.add(selectedTeam.getPlayer2());
+        listOfPlayers.add(selectedTeam.getPlayer3());
+        listOfPlayers.add(selectedTeam.getPlayer4());
+        listOfPlayers.add(selectedTeam.getPlayer5());
 
         listAdapter = new ArrayAdapter<String>(UserWithTeamActivity.this,
-                android.R.layout.simple_list_item_1,listOfPlayers);
+                android.R.layout.simple_list_item_1, listOfPlayers);
         playerListViewer.setAdapter(listAdapter);
     }
 
     public void exitTeamIsClickedInUserWithTeamPage(View view) {
-        if(isInternetOn()) {
+        if (isInternetOn()) {
             //Toast.makeText(UserWithTeamActivity.this, "Yet in maintenance", Toast.LENGTH_LONG).show();
             /*TODO: Remove the player from the team, update in firebase + MainActivity*/
 
             // update the team object -> remove the player
-            if (selectedTeam.getPlayer1().equalsIgnoreCase(selectedPlayer.getUserName())){
+            if (selectedTeam.getPlayer1().equalsIgnoreCase(selectedPlayer.getUserName())) {
                 selectedTeam.setPlayer1("no");
-            }else if (selectedTeam.getPlayer2().equalsIgnoreCase(selectedPlayer.getUserName())){
+            } else if (selectedTeam.getPlayer2().equalsIgnoreCase(selectedPlayer.getUserName())) {
                 selectedTeam.setPlayer2("no");
-            }else if (selectedTeam.getPlayer3().equalsIgnoreCase(selectedPlayer.getUserName())){
+            } else if (selectedTeam.getPlayer3().equalsIgnoreCase(selectedPlayer.getUserName())) {
                 selectedTeam.setPlayer3("no");
-            }else if (selectedTeam.getPlayer4().equalsIgnoreCase(selectedPlayer.getUserName())){
+            } else if (selectedTeam.getPlayer4().equalsIgnoreCase(selectedPlayer.getUserName())) {
                 selectedTeam.setPlayer4("no");
-            }else if (selectedTeam.getPlayer5().equalsIgnoreCase(selectedPlayer.getUserName())){
+            } else if (selectedTeam.getPlayer5().equalsIgnoreCase(selectedPlayer.getUserName())) {
                 selectedTeam.setPlayer5("no");
             }
 
@@ -100,39 +100,50 @@ public class UserWithTeamActivity extends AppCompatActivity {
             intent = new Intent(UserWithTeamActivity.this, UserWithoutTeamActivity.class);
             startActivity(intent);
 
-        }else{
+        } else {
             txtErr.setText(R.string.noInternet);
         }
     }
 
     public void findPlayerClickedInUserWithTeamPage(View view) {
-        if(isInternetOn()) {
-            //Toast.makeText(UserWithTeamActivity.this, "Yet in maintenance", Toast.LENGTH_LONG).show();
+        if (isInternetOn()) {
+            txtErr.setText("");
             intent = new Intent(UserWithTeamActivity.this, FindPlayerActivity.class);
             startActivity(intent);
-        }else{
+        } else {
             txtErr.setText(R.string.noInternet);
         }
     }
 
     public void findMatchClickedInUserWithTeamPage(View view) {
-        intent = new Intent(UserWithTeamActivity.this, FindMatchActivity.class);
-        startActivity(intent);
-        //Toast.makeText(UserWithTeamActivity.this, "Yet in maintenance", Toast.LENGTH_LONG).show();
+        if (isInternetOn()) {
+            txtErr.setText("");
+            System.out.println(">>>>> Selected team: " + selectedTeam);
+            if (!selectedTeam.getChallenger().equalsIgnoreCase("no")) {
+                intent = new Intent(UserWithTeamActivity.this, MatchActivity.class);
+            } else {
+                intent = new Intent(UserWithTeamActivity.this, FindMatchActivity.class);
+            }
+            startActivity(intent);
+        } else {
+            txtErr.setText(R.string.noInternet);
+        }
     }
 
     public void signOutClickedInUserWithTeamPage(View view) {
-        intent = new Intent(UserWithTeamActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void matchRequestsClickedInUserWithTeamClicked(View view) {
+        if (isInternetOn()) {
+            txtErr.setText("");
+            intent = new Intent(UserWithTeamActivity.this, MainActivity.class);
+            startActivity(intent);
+        } else {
+            txtErr.setText(R.string.noInternet);
+        }
     }
 
     /* To check the internet connection */
-    public Boolean isInternetOn(){
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+    public Boolean isInternetOn() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             //we are connected to a network
             return true;

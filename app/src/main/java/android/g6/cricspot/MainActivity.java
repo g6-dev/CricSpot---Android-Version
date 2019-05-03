@@ -7,7 +7,6 @@ import android.g6.cricspot.CricObjects.Player;
 import android.g6.cricspot.CricObjects.Team;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,31 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    final static String dbMemberNameForTeam = "Team";
-    final static String dbMemberNameForPlayer = "Player";
-
-    //----------------------------------------------------------------------------------------------
-    //To store the user's name for the whole application program
-//    private static String user;
-//
-//    public static String getUser() {
-//        return user;
-//    }
-//
-//    public static void setUser(String user) {
-//        MainActivity.user = user;
-//    }
-    //User's name is stored within MainActivity class, When Log in starts...
-    //----------------------------------------------------------------------------------------------
 
     //----------------------------------------------------------------------------------------------
     //To store the user's player object for the whole application program
@@ -89,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Initially keep offline database of online lists -> -+- Team, Players -+-
         if ( ! DatabaseManager.getIsTeamsRetrieved() ) {
-            dbManager.retrieveAllTeamsFromDatabase(dbMemberNameForTeam);
+            dbManager.retrieveAllTeamsFromDatabase(DatabaseManager.getDbMemberNameForTeam());
         }
 
         if ( ! DatabaseManager.getIsPlayersRetrieved()) {
-            dbManager.retrieveAllPlayersFromDatabase(dbMemberNameForPlayer);
+            dbManager.retrieveAllPlayersFromDatabase(DatabaseManager.getDbMemberNameForPlayer());
         }
     }
 

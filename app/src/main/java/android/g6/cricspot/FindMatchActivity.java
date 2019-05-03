@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.g6.cricspot.CricClasses.DatabaseManager;
 import android.g6.cricspot.CricClasses.TwoRowListAdapter;
 import android.g6.cricspot.CricObjects.NameAndLocation;
-import android.g6.cricspot.CricObjects.Player;
 import android.g6.cricspot.CricObjects.Team;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +23,7 @@ public class FindMatchActivity extends AppCompatActivity {
     List<NameAndLocation> playersNameLocationList = new ArrayList<>();
     TwoRowListAdapter listAdapter;
     Intent intent;
+    DatabaseManager dbManager = new DatabaseManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +33,15 @@ public class FindMatchActivity extends AppCompatActivity {
         txtTopic = findViewById(R.id.txtInFindMatchPage);
         listView = findViewById(R.id.listViewInFindMatchPage);
 
+
         listOfAllTeams.clear();
         listOfAllTeams = DatabaseManager.getTeamsList();
 
         playersNameLocationList.clear();
 
         //Get the teams who doesn't have a team yet!!!
-        for (Team team: listOfAllTeams){ // Run whole teams
-            if(!(team.getName().equals(MainActivity.getUserTeamObject().getName()))) {
+        for (Team team : listOfAllTeams) { // Run whole teams
+            if (!(team.getName().equals(MainActivity.getUserTeamObject().getName()))) {
                 if (!team.getPlaying()) { // teams with false as isPlaying ! :D
                     playersNameLocationList.add(new NameAndLocation(team.getName(), team.getLocation()));
                     System.out.println(">>>>> team: " + team);
@@ -65,5 +65,6 @@ public class FindMatchActivity extends AppCompatActivity {
                 //Toast.makeText(FindMatchActivity.this, "you selected: "+selectedItem, Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }

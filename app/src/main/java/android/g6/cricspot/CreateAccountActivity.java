@@ -1,6 +1,7 @@
 package android.g6.cricspot;
 
 import android.content.Context;
+import android.content.Intent;
 import android.g6.cricspot.CricClasses.DatabaseManager;
 import android.g6.cricspot.CricObjects.Player;
 import android.net.ConnectivityManager;
@@ -27,6 +28,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     Player player;
     List<Player> playerList;
     DatabaseManager dbManager;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,9 @@ public class CreateAccountActivity extends AppCompatActivity {
 
             Toast.makeText(CreateAccountActivity.this, "Player added", Toast.LENGTH_SHORT).show();
             emptyAllTextFields();
+
+            intent = new Intent(CreateAccountActivity.this, MainActivity.class);
+            startActivity(intent);
         }
     }
 

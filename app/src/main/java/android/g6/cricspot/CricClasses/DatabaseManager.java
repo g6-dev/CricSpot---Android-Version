@@ -4,7 +4,6 @@ import android.g6.cricspot.CricObjects.Player;
 import android.g6.cricspot.CricObjects.Team;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,6 +21,7 @@ public class DatabaseManager {
     //--------------------------- DATABASE MEMBER KEY ----------------------------------------------
     private static final String dbMemberNameForTeam = "Team";
     private static final String dbMemberNameForPlayer = "Player";
+    private static final String dbMemberNameForRequestTeam = "RequestTeam";
 
     public static String getDbMemberNameForTeam() {
         return dbMemberNameForTeam;
@@ -30,10 +30,20 @@ public class DatabaseManager {
     public static String getDbMemberNameForPlayer() {
         return dbMemberNameForPlayer;
     }
-//--------------------------- DATABASE MEMBER KEY ----------------------------------------------
 
-    //----------------------------------------------------------------------------------------------
-    //-------- STATIC LIST TO ACCESS FIREBASE DATA === PLAYER --------------------------------------
+    public static String getDbMemberNameForRequestTeam() {
+        return dbMemberNameForRequestTeam;
+    }
+    //--------------------------- DATABASE MEMBER KEY ----------------------------------------------
+
+    public DatabaseManager() {
+    }
+
+    //*********************************************************************************************
+    //********************** DATABASE FUNCTIONS >>>>>>>>>> PLAYER OBJECT <<<<<<<<<<<<<*************
+    //*********************************************************************************************
+
+    //-------- STATIC LIST TO ACCESS FIRE BASE DATA === PLAYER --------------------------------------
     private Player player;
     private static List<Player> playersList = new ArrayList<>();
 
@@ -54,7 +64,102 @@ public class DatabaseManager {
     public static void setIsPlayersRetrieved(Boolean isPlayersRetrieved) {
         DatabaseManager.isPlayersRetrieved = isPlayersRetrieved;
     }
-//----------------------------------------------------------------------------------------------
+
+    public void addPlayerToFirebase(String dbMemberName, Player player) {
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
+        System.out.println(">>>> Adding player into fire base");
+        /*dbReference.push().setValue(player);  // Add player with unknown key number*/
+        //Because userName is the as per the unique name
+        dbReference.child(player.getUserName()).setValue(player);
+    }
+
+    /*
+     * dbMemberName is the database Name. Ex: 'Player'
+     * dbChildName is the player key. Ex: 'test1'
+     */
+    public Player retrieveOnePlayerFromDatabase(String dbMemberName, String dbChildName) {
+
+        player = null;
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName).child(dbChildName);
+        dbReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String name = dataSnapshot.child("name").getValue().toString();
+                String userName = dataSnapshot.child("userName").getValue().toString();
+                String password = dataSnapshot.child("password").getValue().toString();
+                String age = dataSnapshot.child("age").getValue().toString();
+                String phone = dataSnapshot.child("phone").getValue().toString();
+                String team = dataSnapshot.child("team").getValue().toString();
+                String location = dataSnapshot.child("location").getValue().toString();
+                String type = dataSnapshot.child("type").getValue().toString();
+
+                Log.d(">>>>>", "[" + name + ", " + userName + ", " + password + ", " + age + ", " + phone +
+                        ", " + team + ", " + location + ", " + type + "]");
+                player = new Player(name, userName, password, age, phone, team, location, type);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return player;
+    }
+
+    /*
+     * Link: https://stackoverflow.com/questions/38652007/how-to-retrieve-specific-list-of-data-from-firebase
+     * Run this method & access the static List
+     */
+    public void retrieveAllPlayersFromDatabase(String dbMemberName) {
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
+        Log.d(">>>>>", "Starting method");
+        isPlayersRetrieved = false;
+
+        dbReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d(">>>>>", "On 1 st method");
+                playersList.clear();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    Log.d(">>>>>", "On 2 nd method");
+                    player = postSnapshot.getValue(Player.class);
+                    playersList.add(player);
+
+                    // here you can access to name property like university.name
+                    System.out.println(">>>>> Retrieving player -> " + player);
+
+                    if (!isPlayersRetrieved) {
+                        isPlayersRetrieved = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getMessage());
+            }
+        });
+    }
+
+    public void updatePlayerAttributeInFirebase(String dbMemberName, Player player) {
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
+
+        dbReference.child(player.getUserName()).setValue(player).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                System.out.println(">>>>> Update is successful...");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                System.out.println(">>>>> Update is unsuccessful!");
+            }
+        });
+    }
+
+    //*********************************************************************************************
+    //********************** DATABASE FUNCTIONS >>>>>>>>>> TEAM OBJECT <<<<<<<<<<<<<***************
+    //*********************************************************************************************
 
     //----------------------------------------------------------------------------------------------
     //-------- STATIC LIST TO ACCESS FIREBASE DATA === TEAM ----------------------------------------
@@ -78,112 +183,9 @@ public class DatabaseManager {
     public static void setIsTeamsRetrieved(Boolean isTeamsRetrieved) {
         DatabaseManager.isTeamsRetrieved = isTeamsRetrieved;
     }
-//----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
 
-    public DatabaseManager() {
-    }
-
-    //*********************************************************************************************
-    //********************** DATABASE FUNCTIONS >>>>>>>>>> PLAYER OBJECT <<<<<<<<<<<<<*************
-    //*********************************************************************************************
-
-    public void addPlayerToFirebase(String dbMemberName, Player player){
-        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
-        System.out.println(">>>> Adding player into fire base");
-        /*dbReference.push().setValue(player);  // Add player with unknown key number*/
-        //Because userName is the as per the unique name
-        dbReference.child(player.getUserName()).setValue(player);
-    }
-
-    /*
-    * dbMemberName is the database Name. Ex: 'Player'
-    * dbChildName is the player key. Ex: 'test1'
-     */
-    public Player retrieveOnePlayerFromDatabase(String dbMemberName, String dbChildName){
-
-        player = null;
-        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName).child(dbChildName);
-        dbReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String name = dataSnapshot.child("name").getValue().toString();
-                String userName = dataSnapshot.child("userName").getValue().toString();
-                String password = dataSnapshot.child("password").getValue().toString();
-                String age = dataSnapshot.child("age").getValue().toString();
-                String phone = dataSnapshot.child("phone").getValue().toString();
-                String team = dataSnapshot.child("team").getValue().toString();
-                String location = dataSnapshot.child("location").getValue().toString();
-                String type = dataSnapshot.child("type").getValue().toString();
-
-                Log.d(">>>>>", "["+name+", "+userName+", "+password+", "+age+", "+phone+
-                        ", "+team+", "+location+", "+type+"]");
-                player = new Player(name, userName, password, age, phone, team, location, type);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        return player;
-    }
-
-    /*
-     * Link: https://stackoverflow.com/questions/38652007/how-to-retrieve-specific-list-of-data-from-firebase
-     * Run this method & access the static List
-     */
-    public void retrieveAllPlayersFromDatabase(String dbMemberName){
-        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
-        Log.d(">>>>>", "Starting method");
-        isPlayersRetrieved = false;
-
-        dbReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d(">>>>>", "On 1 st method");
-                playersList.clear();
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    Log.d(">>>>>", "On 2 nd method");
-                    player = postSnapshot.getValue(Player.class);
-                    playersList.add(player);
-
-                    // here you can access to name property like university.name
-                    System.out.println(">>>>> Retrieving player -> "+ player);
-
-                    if(!isPlayersRetrieved) {
-                        isPlayersRetrieved = true;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getMessage());
-            }
-        });
-    }
-
-    public void updatePlayerAttributeInFirebase(String dbMemberName, Player player){
-        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
-
-        dbReference.child(player.getUserName()).setValue(player).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                System.out.println(">>>>> Update is successful...");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                System.out.println(">>>>> Update is unsuccessful!");
-            }
-        });
-    }
-
-    //*********************************************************************************************
-    //********************** DATABASE FUNCTIONS >>>>>>>>>> TEAM OBJECT <<<<<<<<<<<<<***************
-    //*********************************************************************************************
-
-    public void addTeamToFirebase(String dbMemberName, Team team){
+    public void addTeamToFirebase(String dbMemberName, Team team) {
 
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
         System.out.println(">>>> Adding data into fire base");
@@ -191,7 +193,7 @@ public class DatabaseManager {
         dbReference.child(team.getName()).setValue(team);
     }
 
-    public Team retrieveOneTeamFromDatabase(String dbMemberName, String dbChildName){
+    public Team retrieveOneTeamFromDatabase(String dbMemberName, String dbChildName) {
 
         team = null;
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName).child(dbChildName);
@@ -205,11 +207,14 @@ public class DatabaseManager {
                 String player3 = dataSnapshot.child("player3").getValue().toString();
                 String player4 = dataSnapshot.child("player4").getValue().toString();
                 String player5 = dataSnapshot.child("player5").getValue().toString();
+                String challenger = dataSnapshot.child("challenger").getValue().toString();
                 Boolean isPlaying = Boolean.valueOf(dataSnapshot.child("isPlaying").getValue().toString());
 
-                Log.d(">>>>>", "["+name+", "+location+", "+player1+", "+player2+", "
-                        +player3+","+player4+", "+player5+", "+isPlaying+"]");
-                team = new Team(name, location, player1, player2, player3, player4, player5, isPlaying);
+                Log.d(">>>>>", "[" + name + ", " + location + ", " + player1 + ", "
+                        + player2 + ", " + player3 + "," + player4 + ", " + player5 + ", " +
+                        challenger +", " + isPlaying + "]");
+                team = new Team(name, location, player1, player2, player3, player4, player5,
+                        challenger, isPlaying);
 
             }
 
@@ -225,7 +230,7 @@ public class DatabaseManager {
      * Link: https://stackoverflow.com/questions/38652007/how-to-retrieve-specific-list-of-data-from-firebase
      * Run this method & access the static List
      */
-    public void retrieveAllTeamsFromDatabase(String dbMemberName){
+    public void retrieveAllTeamsFromDatabase(String dbMemberName) {
 
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
         Log.d(">>>>>", "Starting method");
@@ -237,15 +242,15 @@ public class DatabaseManager {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 teamsList.clear();
                 Log.d(">>>>>", "On 1 st method");
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Log.d(">>>>>", "On 2 nd method");
                     team = postSnapshot.getValue(Team.class);
                     teamsList.add(team);
 
                     // here you can access to name property like university.name
-                    System.out.println(">>>>> Retrieving team -> "+ team);
+                    System.out.println(">>>>> Retrieving team -> " + team);
 
-                    if(!isTeamsRetrieved){
+                    if (!isTeamsRetrieved) {
                         isTeamsRetrieved = true;
                     }
                 }
@@ -258,7 +263,7 @@ public class DatabaseManager {
         });
     }
 
-    public void updateTeamAttributeInFirebase(String dbMemberName, Team team){
+    public void updateTeamAttributeInFirebase(String dbMemberName, Team team) {
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child(dbMemberName);
 
         dbReference.child(team.getName()).setValue(team).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -273,4 +278,5 @@ public class DatabaseManager {
             }
         });
     }
+
 }

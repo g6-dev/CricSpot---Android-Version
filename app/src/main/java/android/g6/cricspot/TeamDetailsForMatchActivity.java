@@ -13,8 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +25,10 @@ public class TeamDetailsForMatchActivity extends AppCompatActivity {
     String intentString;
     List<Team> listOfAllTeams = new ArrayList<>();
     List<String> listOfPlayers = new ArrayList<>();
-    Team selectedTeam;
+    Team challengerTeam;
 
     ArrayAdapter<String> listAdapter;
+    DatabaseManager dbManager = new DatabaseManager();
 
 
     @Override
@@ -49,19 +48,19 @@ public class TeamDetailsForMatchActivity extends AppCompatActivity {
 
         for (Team team: listOfAllTeams){
             if(team.getName().equalsIgnoreCase(intentString)){
-                selectedTeam = team;
-                System.out.println("Selected Team: "+selectedTeam);
+                challengerTeam = team;
+                System.out.println("Selected Team: "+challengerTeam);
             }
         }
 
-        teamName.setText(selectedTeam.getName());
-        teamLocation.setText(selectedTeam.getLocation());
+        teamName.setText(challengerTeam.getName());
+        teamLocation.setText(challengerTeam.getLocation());
 
-        listOfPlayers.add(selectedTeam.getPlayer1());
-        listOfPlayers.add(selectedTeam.getPlayer2());
-        listOfPlayers.add(selectedTeam.getPlayer3());
-        listOfPlayers.add(selectedTeam.getPlayer4());
-        listOfPlayers.add(selectedTeam.getPlayer5());
+        listOfPlayers.add(challengerTeam.getPlayer1());
+        listOfPlayers.add(challengerTeam.getPlayer2());
+        listOfPlayers.add(challengerTeam.getPlayer3());
+        listOfPlayers.add(challengerTeam.getPlayer4());
+        listOfPlayers.add(challengerTeam.getPlayer5());
 
         listAdapter = new ArrayAdapter<String>(TeamDetailsForMatchActivity.this,
                 android.R.layout.simple_list_item_1, listOfPlayers);
@@ -71,8 +70,22 @@ public class TeamDetailsForMatchActivity extends AppCompatActivity {
 
     public void requestMatchBtnClickedInTeamDetailsForMatchPage(View view) {
         if (isInternetOn()){
-            Toast.makeText(TeamDetailsForMatchActivity.this, "Yet in maintenance!",
-                    Toast.LENGTH_LONG).show();
+            Team selectedTeam = MainActivity.getUserTeamObject();
+
+            /* TODO: Update MainActivity challenger + true */
+            selectedTeam.setPlaying(true);
+            selectedTeam.setChallenger(challengerTeam.getName());
+            MainActivity.setUserTeamObject(selectedTeam); // Main activity update
+
+            /* TODO: Update firebase challenger + true */
+            dbManager.updateTeamAttributeInFirebase(DatabaseManager.getDbMemberNameForTeam(), selectedTeam);
+
+            /* TODO: Update challengers firebase + false */
+            challengerTeam.setChallenger(selectedTeam.getName());
+            dbManager.updateTeamAttributeInFirebase(DatabaseManager.getDbMemberNameForTeam(), challengerTeam);
+
+            intent = new Intent(TeamDetailsForMatchActivity.this, MatchActivity.class);
+            startActivity(intent);
         }else{
             txtErr.setText(R.string.noInternet);
         }

@@ -9,13 +9,14 @@ public class Team {
     private String player3;
     private String player4;
     private String player5;
+    private String challenger;
     private Boolean isPlaying;
 
     public Team() {
     }
 
     public Team(String name, String location, String player1, String player2, String player3,
-                String player4, String player5, Boolean isPlaying) {
+                String player4, String player5, String challenger, Boolean isPlaying) {
         this.name = name;
         this.location = location;
         this.player1 = player1;
@@ -23,6 +24,7 @@ public class Team {
         this.player3 = player3;
         this.player4 = player4;
         this.player5 = player5;
+        this.challenger = challenger;
         this.isPlaying = isPlaying;
     }
 
@@ -82,6 +84,14 @@ public class Team {
         this.player5 = player5;
     }
 
+    public String getChallenger() {
+        return challenger;
+    }
+
+    public void setChallenger(String challenger) {
+        this.challenger = challenger;
+    }
+
     public Boolean getPlaying() {
         return isPlaying;
     }
@@ -92,6 +102,6 @@ public class Team {
 
     @Override
     public String toString() {
-        return "[ name: "+this.name+" isPlaying: "+ this.isPlaying+" ]";
+        return "[ name: "+this.name+", isPlaying: "+ this.isPlaying+ ", challenger: " + this.challenger +" ]";
     }
 }
